@@ -1,8 +1,6 @@
-简体中文 | [English](./README.en.md)
-
 <div align='center'>
 
-  <img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/logo-1.png' width=340 height=220>
+  <img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/logo.png' width=340 height=220>
 
 ![](https://img.shields.io/badge/vue-2.5.2-blue.svg)
 ![](https://img.shields.io/badge/license-MIT-orange.svg)
@@ -12,46 +10,41 @@
 
 </div>
 
-# Vue-Erek-Manage
+# Erek-Ticket-Manage
 
 ## 介绍
 
-`Vue-Erek-Manage` 是一款基于 `Vue 2.5` + `iView UI` 的后台管理, 借鉴模仿 `pro-ant-design`的设计，👉 适用于小型项目后台管理，个人维护项目
-
-## 特性
-
-- 直接配置 `Menu菜单栏` 和 `BreadItem面包屑`
-- 仿`pro-ant-design`框架, 提供`Echarts图标` `Table表格列表`等页面借鉴
-- 使用 `npm + webpack + babel` 的工作流，支持 `ES6`
-
-## 技术栈
-
-- vue-cli
-- vuex
-- axios
-- vue-router
-- scss
-- iView
-- echarts
-- mock.js
-- ...
+`Erek-Ticket-Manage` 是基于 [Vue-Erek-Manage](https://github.com/PDKSophia/vue-erek-manage) 快速开发的订单后台管理系统，该订单后台管理系统为博主的毕业设计～小程序端请看这边 👉 [erek-ticket](https://github.com/PDKSophia/erek-ticket)
 
 ## 实现目标
 
-- [ ] 仪表盘
-- [ ] 列表页
-- [ ] 详情页
-- [ ] 错误页
-- [ ] 个人页
-- [ ] 主题设置
-
-## 图表
-
-- [ ] 折现表
-- [ ] 数据卡片
-- [ ] 饼图
-- [ ] 雷达图
-- [ ] ...(QAQ 后期还在做)
+- 查询管理
+  - 简单查询
+  - 订单号查询
+- 订单管理
+  - 飞机票订单
+  - 火车票订单
+  - 大巴票订单
+  - 电影票订单
+- 飞机管理
+  - 新增机场站点
+  - 新增航班信息
+  - 飞机列表
+- 火车管理
+  - 新增车站站点
+  - 新增班次信息
+  - 火车列表
+- 汽车管理
+  - 新增车站站点
+  - 新增车次信息
+  - 汽车列表
+- 城市管理
+  - 新增城市
+  - 城市列表
+- 部门管理
+- 个人中心
+- ...
+- ...
 
 ## 项目环境
 
@@ -67,141 +60,13 @@
 ## 使用
 
 ```javascript
-  1. git clone https://github.com/PDKSophia/vue-erek-manage
+  1. git clone https://github.com/PDKSophia/erek-ticket-manage
 
-  2. cd vue-erek-manage
+  2. cd erek-ticket-manage
 
   3. npm install
 
   4. npm run serve
-```
-
-## Wiki 使用文档
-
-> 使用文档正在写中，请放心，尽可能简单，让大哥们容易上手，有句话说的好: **重构是每天的事情，不要等代码量上来了，并且笨重了再进行重构**，请大哥们不要离开我，我会加快进度，同时如果你觉得我 OK 的话，给我点个星星 ✨ 吧，算是对我的一个鼓励，爱你们 ❤️
-
-## 重...重构？
-
-😣 最近去把一些个人或者小公司自己做的开源后台框架看了一下，发现自己不仅是代码太垃圾了，包括文件夹的归纳是在太乱了，然后呢就看了别人的文件夹架构，emmmm，就优化一下吧，包括后面用 `eslint + prettier` 格式化了一下代码，看着顺眼多了 👀
-
-## 文件架构
-
-```
-·
-├── package.json
-│ 
-├── public                              打包的数据
-│ 
-├── src
-│   ├── assets                          图片等资源文件
-│   │
-│   ├── components
-│   │    ├─CommonComponents
-│   │    │    ├─Badge                   封装的Badge组件，实例: 个人中心
-│   │    │    ├─Divider                 封装的Divider组件
-│   │    │    ├─FolatButton             封装的圆圈按钮组件
-│   │    │    ├─NoContent               封装的无数据显示组件
-│   │    │    ├─StandCard               封装的带有放大的卡片组件
-│   │    │    ├─StarCard                封装的带有星星的卡片组件
-│   │    │    └─ ...
-│   │    ├─EchartsCardComponents        封装的卡片数据组件
-│   │    ├─EchartsComponents
-│   │    │    ├─Line                    封装的折线图组件
-│   │    │    ├─Pie                     封装的饼图组件
-│   │    │    ├─Radar                   封装的雷达图组件
-│   │    │    └─ ...
-│   │    ├─FormComponents
-│   │    │    ├─LoginForm               封装的登陆表单组件
-│   │    │    └─ ...
-│   │    ├─FrameComponents
-│   │    │    ├─Canvas                  封装的登陆canvas动画组件
-│   │    │    ├─Index                   封装的项目首页文字显示组件
-│   │    │    ├─Layout                  封装的Layout组件
-│   │    │    ├─List                    封装的列表组件
-│   │    │    └─ ...
-│   │    ├─HigherOrderComponents
-│   │    │    ├─HOC-EchartCard          封装的数据卡片中间层组件
-│   │    │    ├─HOC-EchartLine          封装的折线图中间层组件
-│   │    │    ├─HOC-EchartPie           封装的饼图中间层组件
-│   │    │    ├─HOC-EchartRadar         封装的雷达图中间层组件
-│   │    │    └─ ...
-│   │    ├─ProfileTableComponents
-│   │    │    ├─BaseTable               封装基本详情页中的Table组件
-│   │    │    ├─AdvanceTable            封装高级详情页中的Table组件
-│   │    │    └─ ...
-│   │    └─ ...
-│   │
-│   ├── js
-│   │    ├─app
-│   │    │  ├─bread-config.js           面包屑配置
-│   │    │  ├─global-config.js          部分配置
-│   │    │  ├─index-config.js           应用配置
-│   │    │  ├─menu-config.js            菜单栏配置
-│   │    │  └─ ...
-│   │    ├─echarts                      图表的配置
-│   │    │    ├─line.config.js
-│   │    │    ├─pie.config.js
-│   │    │    ├─radar.config.js
-│   │    │    └─ ...
-│   │    ├─ mock                        mock模拟请求
-│   │    │    ├─app.js
-│   │    │    ├─card.js
-│   │    │    ├─data.js
-│   │    │    ├─echarts.js
-│   │    │    ├─list.js
-│   │    │    ├─user.js
-│   │    │    └─ ...
-│   │    ├─utils
-│   │    │    ├─utils.js                其他函数处理文件
-│   │    │    ├─vue-token.js
-│   │    │    └─ ...
-│   │    └─ ...
-│   │
-│   ├── router                          路由
-│   │
-│   ├── service                         与服务器相关文件
-│   │    ├─api-app.js
-│   │    ├─api-echarts.js
-│   │    ├─api-list.js
-│   │    ├─api-user.js
-│   │    ├─index.js
-│   │    ├─request.js
-│   │    └─ ...
-│   │
-│   ├── store                           vuex模块化
-│   │    ├─modules
-│   │    │    ├─global.js
-│   │    │    ├─standard.js
-│   │    │    ├─table.js
-│   │    │    ├─user.js
-│   │    │    └─ ...
-│   │    ├─index.js
-│   │    ├─types.js
-│   │    └─ ...
-│   │
-│   │
-│   ├── view
-│   │    ├─Index                        首页
-│   │    ├─Login                        登陆页
-│   │    ├─Manage
-│   │    │    ├─VueErekException        错误页
-│   │    │    ├─VueErekIndex            仪表盘
-│   │    │    ├─VueErekList             列表页
-│   │    │    ├─VueErekProfile          详情页
-│   │    │    ├─VueErekTool             工具页
-│   │    │    ├─VueErekUser             个人页
-│   │    │    └─ ...
-│   │    ├─Router.vue
-│   │    └─ ...
-│   │
-│   ├── main.js
-│   │
-│   ├── App.vue
-│   └─
-│ 
-├── vue.config.js                       webpacck配置
-│ 
-└─
 ```
 
 ## 页面展示
@@ -223,42 +88,6 @@
 ---
 
 <img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-5.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-6.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-7.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-15.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-8.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-9.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-10.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-12.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-13.png'>
-
----
-
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-14.png'>
 
 ---
 
