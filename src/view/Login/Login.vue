@@ -113,7 +113,7 @@ export default {
     handleSendCode() {
       if (this.$utils.checkEmail(this.loginform.email)) {
         this.setCountDownTime();
-        this.$api.user.fetchValidateCode(this.loginform.email).then(res => {
+        this.$api.api.retrieveCode(this.loginform.email).then(res => {
           this.$Notice.open({
             title: `您的验证码是 : ${res.code}`
           });

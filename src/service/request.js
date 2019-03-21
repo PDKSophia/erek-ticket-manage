@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { Message } from 'iview'
+import { getAuthorityToken } from 'js/utils/vue-token'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -36,7 +38,7 @@ const checkStatus = response => {
  * @param  {object} [option]
  * @return {object}
  */
-export default function request(url, option) {
+export default function request(option) {
   const options = {
     ...option
   }
@@ -52,24 +54,32 @@ export default function request(url, option) {
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
+        'x-auth-token': getAuthorityToken(),
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers
       }
-      newOptions.body = JSON.stringify(newOptions.body)
+      newOptions.data = JSON.parse(JSON.stringify(newOptions.data))
     } else {
       newOptions.headers = {
         Accept: 'application/json',
+        'x-auth-token': getAuthorityToken(),
         ...newOptions.headers
       }
     }
   }
 
-  // console.log(url, newOptions)
-  return axios(url, newOptions)
+  return axios(newOptions)
     .then(checkStatus)
     .then(response => {
-      return response.data
-      // return response
+      var res = response.data
+      if (res.code === 1) {
+        return res.data
+      } else {
+        Message.error({
+          content: res.msg,
+          duration: 1.5
+        })
+      }
     })
     .catch(err => {
       let status = err.name

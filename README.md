@@ -38,6 +38,13 @@
   - 新增车站站点
   - 新增车次信息
   - 汽车列表
+- 电影管理
+  - 影院管理
+    - 新增影院
+    - 所有影院
+  - 电影管理
+    - 上映电影
+    - 所有电影
 - 城市管理
   - 新增城市
   - 城市列表
@@ -71,23 +78,23 @@
 
 ## 页面展示
 
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-1.png'>
+<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/cover-1.png'>
 
 ---
 
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-2.png'>
+<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/cover-2.png'>
 
 ---
 
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-3.png'>
+<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/cover-3.png'>
 
 ---
 
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-4.png'>
+<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/cover-4.png'>
 
 ---
 
-<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/ui-5.png'>
+<img src='https://github.com/PDKSophia/erek-resume-manage/raw/master/image/cover-5.png'>
 
 ---
 

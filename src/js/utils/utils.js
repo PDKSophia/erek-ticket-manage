@@ -1,7 +1,9 @@
 import { Message } from 'iview'
 export const baseCDNUrl = 'https://cdn.pengdaokuan.cn/' // CDN URL前缀
 export const baseUrl =
-  process.env.NODE_ENV === 'production' ? 'https://www.pengdaokuan.cn/' : '/api' // 接口URL前缀
+  process.env.NODE_ENV === 'production'
+    ? 'https://www.pengdaokuan.cn/'
+    : 'http://localhost:2442/wapp-backend' // 接口URL前缀
 
 /**
  * desc: 加载框
