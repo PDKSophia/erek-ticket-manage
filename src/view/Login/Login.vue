@@ -56,8 +56,6 @@
 
 <script>
 import {
-  setEmailCode,
-  getEmailCode,
   setAuthorityToken,
   setAuthorityRole
 } from 'js/utils/vue-token';
@@ -72,8 +70,8 @@ export default {
       sendCode: true,
       countTime: 0, // 倒计时60s
       loginform: {
-        username: 'Admin',
-        password: 'Admin',
+        username: '会玩的一号',
+        password: '123456',
         email: '1063137960@qq.com',
         code: ''
       },
@@ -110,15 +108,10 @@ export default {
       }, 1000);
     },
     // 获取验证码
-    handleSendCode() {
+    async handleSendCode() {
       if (this.$utils.checkEmail(this.loginform.email)) {
         this.setCountDownTime();
-        this.$api.api.retrieveCode(this.loginform.email).then(res => {
-          this.$Notice.open({
-            title: `您的验证码是 : ${res.code}`
-          });
-          setEmailCode(res.code);
-        });
+        await this.$api.api.retrieveCode(this.loginform.email)
       } else {
         this.$utils.toastTips('warning', '请输入正确邮箱', 1.5);
       }
@@ -127,21 +120,18 @@ export default {
     onHandleClickSubmit(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          if (getEmailCode() != this.loginform.code) {
-            this.$utils.toastTips('error', '验证码错误', 1.5);
-          } else {
-            this.$api.user
-              .fetchOauthAdminLogin(JSON.stringify(this.loginform))
-              .then(res => {
-                setAuthorityToken(res.token);
-                setAuthorityRole(res.userRole);
-                setTimeout(() => {
-                  this.$router.push({
-                    path: '/erek-manage'
-                  });
-                }, 1500);
-              });
-          }
+          this.$api.api
+            .retrieveToken(this.loginform)
+            .then(res => {
+              console.log(res)
+              // setAuthorityToken(res.token);
+              // setAuthorityRole(res.userRole);
+              // setTimeout(() => {
+              //   this.$router.push({
+              //     path: '/erek-manage'
+              //   });
+              // }, 1500);
+            });
         }
       });
     }

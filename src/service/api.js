@@ -6,7 +6,7 @@ import { baseUrl } from 'js/utils/utils'
 export default {
   // 登陆模块
   /**
-   * desc: 根据emai发送验证码
+   * @desc: 根据emai发送验证码
    * @return {*}
    */
   retrieveCode: email => {
@@ -21,6 +21,18 @@ export default {
         content: data,
         duration: 1.5
       })
+    })
+  },
+  /**
+   * @desc: 获取token
+   * @param {Object} jsondata
+   * @return {*}
+   */
+  retrieveToken: jsondata => {
+    return request({
+      url: `${baseUrl}/api/login/get-token`,
+      method: 'POST',
+      data: jsondata
     })
   },
   /**
