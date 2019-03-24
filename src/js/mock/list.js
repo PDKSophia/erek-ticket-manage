@@ -11,7 +11,7 @@
 const Mock = require('mockjs')
 
 // 获取 `列表 - 表格` 数据
-Mock.mock('/api/erek-list/table', () => {
+Mock.mock('/mock/api/erek-list/table', () => {
   return {
     code: 1,
     msg: '获取成功',
@@ -156,11 +156,11 @@ Mock.mock('/api/erek-list/table', () => {
 })
 
 // 获取 `列表 - 待办任务` 数据
-Mock.mock('/api/erek-list/standard/all-task', () => {
+Mock.mock('/mock/api/erek-list/standard/all-task', () => {
   return {
     code: 1,
     msg: '获取所有待办任务',
-    list: [
+    data: [
       {
         text: '未完成任务',
         value: 12
@@ -178,7 +178,7 @@ Mock.mock('/api/erek-list/standard/all-task', () => {
 })
 
 // 获取 `列表 - 标准列表` 数据
-Mock.mock('/api/erek-list/standard', () => {
+Mock.mock('/mock/api/erek-list/standard', () => {
   return {
     code: 1,
     msg: '获取成功',
@@ -284,7 +284,7 @@ Mock.mock('/api/erek-list/standard', () => {
 })
 
 // 获取 `列表 - 卡片列表` 数据
-Mock.mock('/api/erek-list/card', () => {
+Mock.mock('/mock/api/erek-list/card', () => {
   return {
     code: 1,
     msg: '获取成功',
@@ -371,7 +371,7 @@ Mock.mock('/api/erek-list/card', () => {
 })
 
 // 获取 `详情 - 标准详情` 数据
-Mock.mock('/api/erek-profile/basic?commo_id=10001', () => {
+Mock.mock('/mock/api/erek-profile/basic?commo_id=10001', () => {
   return {
     code: 1,
     msg: '获取成功',

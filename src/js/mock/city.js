@@ -10,11 +10,11 @@
 
 const Mock = require('mockjs')
 // 获取 `列表 - 待办任务` 数据
-Mock.mock('/api/city/get-status', () => {
+Mock.mock('/mock/api/city/get-status', () => {
   return {
     code: 1,
     msg: '成功获取所有城市',
-    list: [
+    data: [
       {
         text: '省会城市',
         value: 12
@@ -32,7 +32,7 @@ Mock.mock('/api/city/get-status', () => {
 })
 
 // 获取 `列表 - 标准列表` 数据
-Mock.mock('/api/city/get-all', () => {
+Mock.mock('/mock/api/city/get-all', () => {
   return {
     code: 1,
     msg: '获取成功',

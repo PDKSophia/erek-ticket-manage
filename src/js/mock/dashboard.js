@@ -1,20 +1,21 @@
 /**
- * 图表mock数据设计
+ * 仪表盘 mock数据设计
  *
- * @summary Echarts Mock
+ * @summary Card Mock
  * @author PDK
  *
- * Created at     : 2019-01-11
- * Last modified  : 2019-01-11
+ * Created at     : 2019-03-23
+ * Last modified  : 2019-03-23
  */
 
 const Mock = require('mockjs')
+
 /**
  * @获取平台近Day天的访问量
  * @param {Number} day
  * @return {*}
  */
-Mock.mock('/api/platform/nearly/seven-day?day=7', () => {
+Mock.mock('/mock/api/dashboard/get-all/access?day=7', () => {
   return {
     code: 1,
     msg: '获取成功',
@@ -37,10 +38,40 @@ Mock.mock('/api/platform/nearly/seven-day?day=7', () => {
 })
 
 /**
+ * @获取所有首页的卡片数据
+ * @param {Number} day
+ * @return {*}
+ */
+Mock.mock('/mock/api/dashboard/get-all/statistics', () => {
+  return {
+    code: 1,
+    msg: '获取所有首页tab的卡片数据',
+    data: [
+      {
+        text: '使用量',
+        value: 131
+      },
+      {
+        text: '下载量',
+        value: 382
+      },
+      {
+        text: '围观量',
+        value: 89
+      },
+      {
+        text: '推广量',
+        value: 225
+      }
+    ]
+  }
+})
+
+/**
  * @获取平台来源数据
  * @return {*}
  */
-Mock.mock('/api/platform/getOrigin', () => {
+Mock.mock('/mock/api/dashboard/get-all/origin', () => {
   return {
     code: 1,
     msg: '获取站点访问来源数据成功',
@@ -58,7 +89,7 @@ Mock.mock('/api/platform/getOrigin', () => {
  * @获取实际开销与预算开销
  * @return {*}
  */
-Mock.mock('/api/platform/getExpense', () => {
+Mock.mock('/mock/api/dashboard/get-all/expense', () => {
   return {
     code: 1,
     msg: '获取预算开销和实际开销成功',
