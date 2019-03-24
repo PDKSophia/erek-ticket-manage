@@ -34,7 +34,7 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  name: 'StandardItemComponents',
+  name: 'StandFrameComponent',
   computed: mapState({
     isFetching: state => state.global.isFetching
   }),
