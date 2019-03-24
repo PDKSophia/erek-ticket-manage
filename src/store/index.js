@@ -5,6 +5,7 @@ import global from './modules/global'
 import user from './modules/user'
 import table from './modules/table'
 import standard from './modules/standard'
+import department from './modules/department'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     global,
     user,
     table,
-    standard
+    standard,
+    department
   }
 })
