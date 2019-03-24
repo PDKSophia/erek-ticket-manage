@@ -23,16 +23,16 @@ export function setAuthorityRole(role) {
   return sessionStorage.setItem('vue-erek-role', role)
 }
 /**
- * @获取验证码
+ * @获取用户角色权限
  */
-export function getEmailCode() {
-  return sessionStorage.getItem('vue-erek-code')
+export function getAuthorityDepartID() {
+  return sessionStorage.getItem('vue-erek-departmentId')
 }
 /**
- * @设置验证码
+ * @设置用户部门ID
  */
-export function setEmailCode(code) {
-  return sessionStorage.setItem('vue-erek-code', code)
+export function setAuthorityDepartID(role) {
+  return sessionStorage.setItem('vue-erek-departmentId', role)
 }
 
 export default {}

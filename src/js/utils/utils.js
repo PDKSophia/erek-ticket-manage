@@ -4,7 +4,7 @@ export const baseUrl =
   process.env.NODE_ENV === 'production'
     ? 'https://www.pengdaokuan.cn/'
     : 'http://localhost:2442/wapp-backend' // 接口URL前缀
-
+export const mockURL = '/mock/api'
 /**
  * desc: 加载框
  * @param {String} text
@@ -162,6 +162,19 @@ function checkUrlQuery(url) {
   console.log(url)
 }
 
+/**
+ * @初始化表单弹窗处理
+ */
+function processInitailDialog() {
+  return {
+    visible: false,
+    formType: 'create',
+    formData: null,
+    formTitle: '',
+    formWidth: 580
+  }
+}
+
 export default {
   loadingTips,
   toastTips,
@@ -170,5 +183,6 @@ export default {
   randomColor,
   getColorFromArray,
   uniqueArray,
-  checkUrlQuery
+  checkUrlQuery,
+  processInitailDialog
 }
