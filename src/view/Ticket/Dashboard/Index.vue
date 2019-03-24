@@ -23,7 +23,7 @@ import HocEchartsRadar from 'components/HigherOrderComponent/HOC-EchartRadar.vue
 import HocEchartsCard from 'components/HigherOrderComponent/HOC-EchartCard.vue';
 import VueDivider from 'components/CommonComponents/Divider/Index.vue';
 export default {
-  name: 'ErekManageHome',
+  name: 'TicketDashboardComponent',
   components: {
     HocEchartsLine,
     HocEchartsPie,
@@ -46,21 +46,20 @@ export default {
   mounted() {
     // 请求 `获取平台近7天的访问量与注册量`
     this.$api.mock.retrieveSystemAccess(7).then(res => {
-      console.log(res)
-      this.lineData = { ...res };
-    });
+      this.lineData = { ...res }
+    })
     // 请求拿到 `卡片数据`
     this.$api.mock.retrieveSystemStatistics().then(res => {
-      this.tabData = [...res];
-    });
+      this.tabData = [...res]
+    })
     // 请求拿到 `站点访问来源数据`
     this.$api.mock.retrieveSystemOrigin().then(res => {
-      this.pieData = [...res];
-    });
+      this.pieData = [...res]
+    })
     // 请求拿到 `预算开销和实际开销`
     this.$api.mock.retrieveSystemExpense().then(res => {
-      this.radarData = { ...res };
-    });
+      this.radarData = { ...res }
+    })
   }
 };
 </script>

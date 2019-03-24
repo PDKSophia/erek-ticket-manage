@@ -3,29 +3,34 @@
     <div class="vue-user-item">
       <div class="vue-user-item-meta">
         <div class="vue-user-item-meta-avatar">
-          <img :src="erekUser.avatar" class="vue-user-item-meta-avatar-image" alt>
+          <img
+            src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
+            class="vue-user-item-meta-avatar-image"
+            alt
+          >
         </div>
         <div class="vue-user-item-meta-content">
           <h4 class="vue-user-item-meta-title">{{ erekUser.username }}</h4>
           <div class="vue-user-item-meta-summary">
-            <span v-for="(tag, index) in erekUser.tag" :key="index">
-              {{ tag }}
-              <Divider v-if="index !== erekUser.tag.length - 1" type="vertical"/>
-            </span>
+            <span>{{ erekUser.depart_name }}</span>
+            <Divider type="vertical"/>
+            <span>级别: {{ erekUser.grade }}</span>
+            <Divider type="vertical"/>
+            <span>{{ erekUser.job }}</span>
           </div>
         </div>
       </div>
       <div class="vue-user-item-action">
         <ul>
           <a
-            v-for="(item, key) in erekUser.link"
+            v-for="(item, key) in appLink"
             :key="key"
             :href="item.target"
             target="_blank"
             class="vue-erek-link"
           >
             {{ item.text }}
-            <Divider v-if="key !== erekUser.link.length - 1" type="vertical"/>
+            <Divider v-if="key !== appLink.length - 1" type="vertical"/>
           </a>
         </ul>
       </div>
@@ -55,6 +60,7 @@ import VueDivider from 'components/CommonComponents/Divider/Index.vue';
 import VueUserBadge from 'components/CommonComponents/Badge/Index.vue';
 import EchartsLine from 'components/EchartsComponents/Line.vue';
 import { mapState } from 'vuex';
+import { appLink } from 'js/app/global-config'
 
 export default {
   name: 'TicketUser',
@@ -68,6 +74,7 @@ export default {
   }),
   data() {
     return {
+      appLink: [],
       divider: {
         bgColor: '#f5f7f9',
         height: '20px'
@@ -89,26 +96,26 @@ export default {
     };
   },
   mounted() {
+    this.appLink = [...appLink]
     // 发送请求获取所有个人中心的数据
-    this.$api.app.fetchAllListData().then(res => {
+    this.$api.mock.retrieveLogin7Day().then(res => {
       // 折线图 - 近期日访问量
-      let loginStep = res.loginStep;
-      for (let i = 0; i < loginStep.timeRange.length; i++) {
-        this.xAxis.data.push(loginStep.timeRange[i]);
+      for (let i = 0; i < res.timeRange.length; i++) {
+        this.xAxis.data.push(res.timeRange[i]);
       }
-      this.yAxis.min = loginStep.countRange[0];
-      this.yAxis.max = loginStep.countRange[1];
+      this.yAxis.min = res.countRange[0];
+      this.yAxis.max = res.countRange[1];
 
-      for (let j = 0; j < loginStep.data.length; j++) {
+      for (let j = 0; j < res.data.length; j++) {
         let config = {
-          text: loginStep.data[j].text,
+          text: res.data[j].text,
           badgeColor: '#00c099'
         };
         this.itemList.push(config);
         let obj = {
-          data: loginStep.data[j].data,
+          data: res.data[j].data,
           type: 'bar',
-          barWidth: 15,
+          barWidth: 20,
           itemStyle: {
             normal: {
               color: '#00c099' // 设置折线点颜色
@@ -121,7 +128,7 @@ export default {
     });
 
     // Step1. 请求获取 “徽章”
-    this.$api.user.fetchBadgeList().then(res => {
+    this.$api.mock.retrieveBadgeList().then(res => {
       this.badgeConfig = {
         namespace: '获得的徽章',
         valueColor: '#6f80da',
@@ -279,7 +286,6 @@ export default {
 .vue-erek-pyq-title {
   padding: 16px 0 16px 14px;
   font-size: 16px;
-  min-height: 48px;
   color: rgba(0, 0, 0, 0.65);
   border-bottom: 1px solid #e8e8e8;
 }

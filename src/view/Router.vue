@@ -61,7 +61,7 @@ export default {
       }, 1000)
     } else {
       // 获取用户信息
-      this.$api.user.fetchCurrentUser().then(res => {
+      this.$api.api.retrieveUser().then(res => {
         this.setErekUser(res);
       });
     }

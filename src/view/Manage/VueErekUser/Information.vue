@@ -373,7 +373,6 @@ export default {
 .vue-erek-pyq-title {
   padding: 16px 0 16px 14px;
   font-size: 16px;
-  min-height: 48px;
   color: rgba(0, 0, 0, 0.65);
   border-bottom: 1px solid #e8e8e8;
 }

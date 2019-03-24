@@ -64,7 +64,7 @@ import {
 import { app } from 'js/app/index-config';
 
 export default {
-  name: 'ErekManageLogin',
+  name: 'TicketLogin',
   data() {
     return {
       appName: '',
