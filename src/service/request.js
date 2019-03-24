@@ -54,7 +54,7 @@ export default function request(option) {
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
-        'x-auth-token': getAuthorityToken(),
+        xAutToken: getAuthorityToken(),
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers
       }
@@ -62,9 +62,15 @@ export default function request(option) {
     } else {
       newOptions.headers = {
         Accept: 'application/json',
-        'x-auth-token': getAuthorityToken(),
+        xAutToken: getAuthorityToken(),
         ...newOptions.headers
       }
+    }
+  } else {
+    newOptions.headers = {
+      Accept: 'application/json',
+      xAutToken: getAuthorityToken(),
+      ...newOptions.headers
     }
   }
 

@@ -3,6 +3,32 @@ import { getAuthorityToken } from 'js/utils/vue-token'
 import { Message } from 'iview'
 import { baseUrl } from 'js/utils/utils'
 
+// 部门模块
+/**
+ * @desc: 新增部门
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createDepartment(payload) {
+  return request({
+    url: `${baseUrl}/api/department/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑部门
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateDepartment(payload) {
+  return request({
+    url: `${baseUrl}/api/department/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+
 export default {
   // 登陆模块
   /**
@@ -35,6 +61,13 @@ export default {
       data: jsondata
     })
   },
+  retrieveUser: () => {
+    return request({
+      url: `${baseUrl}/api/login/oauth-token`,
+      method: 'GET'
+    })
+  },
+
   /**
    * desc: 获取所有城市卡片
    * @return {*}

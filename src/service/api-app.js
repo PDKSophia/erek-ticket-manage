@@ -9,19 +9,10 @@ export default {
    * @return {*}
    */
   fetchAllDataList: () => {
-    return request(`${baseUrl}/data/getAllData`, {
+    return request({
+      url: `${baseUrl}/data/getAllData`,
       method: 'GET',
       token: getAuthorityToken()
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        return response.list
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
     })
   },
   /**
@@ -29,19 +20,10 @@ export default {
    * @return {*}
    */
   fetchStandAllDataList: () => {
-    return request(`${baseUrl}/data/getStandAllData`, {
+    return request({
+      url: `${baseUrl}/data/getStandAllData`,
       method: 'GET',
       token: getAuthorityToken()
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        return response.list
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
     })
   },
   /**
@@ -49,39 +31,10 @@ export default {
    * @return {*}
    */
   fetchPlatFormViewData: () => {
-    return request(`${baseUrl}/data/getPlatFormViewData`, {
+    return request({
+      url: `${baseUrl}/data/getPlatFormViewData`,
       method: 'GET',
       token: getAuthorityToken()
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        return response.list
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
-    })
-  },
-  /**
-   * @获取所有首页的卡片数据
-   * @return {*}
-   */
-  fetchAllTabData: () => {
-    return request(`${baseUrl}/data/getAllTabCardList`, {
-      method: 'GET',
-      token: getAuthorityToken()
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        return response.list
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
     })
   },
 
@@ -90,7 +43,8 @@ export default {
    * @return {*}
    */
   fetchAllOriginData: () => {
-    return request(`${baseUrl}/data/getOriginAllData`, {
+    return request({
+      url: `${baseUrl}/data/getOriginAllData`,
       method: 'GET',
       token: getAuthorityToken()
     }).then(res => {
@@ -111,7 +65,8 @@ export default {
    * @return {*}
    */
   fetchExpenseOriginData: () => {
-    return request(`${baseUrl}/data/getExpenseAllData`, {
+    return request({
+      url: `${baseUrl}/data/getExpenseAllData`,
       method: 'GET',
       token: getAuthorityToken()
     }).then(res => {
@@ -132,7 +87,8 @@ export default {
    * @return {*}
    */
   fetchAllListData: () => {
-    return request(`${baseUrl}/erek-user-all/getAllData`, {
+    return request({
+      url: `${baseUrl}/erek-user-all/getAllData`,
       method: 'GET',
       token: getAuthorityToken()
     }).then(res => {

@@ -1,100 +1,29 @@
 import request from './request'
 import { Message } from 'iview'
 import { getAuthorityToken } from 'js/utils/vue-token'
-import { baseUrl } from 'js/utils/utils'
+import { mockURL } from 'js/utils/utils'
 
 export default {
   /**
-   * desc: 验证码获取
-   * @param {String} Email
-   * @return {String} Code
-   */
-  fetchValidateCode: email => {
-    return request(`${baseUrl}/oauth/send-validate-code`, {
-      method: 'POST',
-      data: {
-        email: email
-      }
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        Message.success({
-          content: response.msg,
-          duration: 1.5
-        })
-        return response.data
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
-    })
-  },
-  /**
-   * desc: 管理员登陆
-   * @param {String} UserName
-   * @param {String} PassWord
-   * @param {String} Code
-   * @return {String} Token
-   */
-  fetchOauthAdminLogin: jsondata => {
-    return request(`${baseUrl}/oauth/login`, {
-      method: 'POST',
-      data: jsondata
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        Message.success({
-          content: response.msg,
-          duration: 1.5
-        })
-        return response.data
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
-    })
-  },
-  /**
-   * desc: 获取用户信息
+   * @desc: 获取徽章数据
    * @return {*}
    */
-  fetchCurrentUser: () => {
-    return request(`${baseUrl}/erek-user/getCurrentUser`, {
+  retrieveBadgeList: () => {
+    return request({
+      url: `${mockURL}/user/get-badge-list`,
       method: 'GET',
       token: getAuthorityToken()
-    }).then(res => {
-      let { response } = res
-      if (response.code === 1) {
-        return response.data
-      } else {
-        Message.error({
-          content: response.msg,
-          duration: 1.5
-        })
-      }
     })
   },
   /**
-   * desc: 获取用户信息
+   * @desc: 获取用户近七日登陆数据
    * @return {*}
    */
-  fetchBadgeList: () => {
-    return request(`${baseUrl}/erek-user/getBadgeList`, {
+  retrieveBadgeList: () => {
+    return request({
+      url: `${mockURL}/user/login-data`,
       method: 'GET',
       token: getAuthorityToken()
-    }).then(res => {
-      if (res.code === 1) {
-        return res.list
-      } else {
-        Message.error({
-          content: res.msg,
-          duration: 1.5
-        })
-      }
     })
   }
 }
