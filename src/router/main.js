@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ErekManageRouter from '@/view/Router'
-
-// 首页
-import ErekManageIndex from '@/view/Index/Index'
+// 后台首页
+import HomeComponent from '@/view/Ticket/Home/Index'
 // 登陆页
-import ErekManageLogin from '@/view/Login/Login'
+import LoginComponent from '@/view/Ticket/Login/Index'
 
-// 后台管理
-import VueErekManageIndex from '@/view/Manage/VueErekIndex/Index'
+// 仪表盘
+import DashBoardComponent from '@/view/Ticket/Dashboard/Index'
 
 // 列表页
 import VueErekTableList from '@/view/Manage/VueErekList/Table'
@@ -71,16 +70,16 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'ErekManageIndex',
-      component: ErekManageIndex,
+      name: 'HomeComponent',
+      component: HomeComponent,
       meta: {
         keepAlive: false
       }
     },
     {
       path: '/login',
-      name: 'ErekManageLogin',
-      component: ErekManageLogin,
+      name: 'LoginComponent',
+      component: LoginComponent,
       meta: {
         keepAlive: false
       }
@@ -93,8 +92,8 @@ const router = new Router({
       children: [
         {
           path: 'erek-home',
-          name: 'VueErekManageIndex',
-          component: VueErekManageIndex,
+          name: 'DashBoardComponent',
+          component: DashBoardComponent,
           meta: {
             keepAlive: false
           }

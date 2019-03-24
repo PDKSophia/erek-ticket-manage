@@ -14,7 +14,7 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 import store from './store'
-require('./js/mock/app')
+require('./js/mock')
 
 new Vue({
   router,

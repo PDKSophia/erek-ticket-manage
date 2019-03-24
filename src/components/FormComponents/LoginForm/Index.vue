@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import { setEmailCode } from 'js/utils/vue-token';
 
 export default {
   name: 'PersonForm',
@@ -99,12 +98,6 @@ export default {
     handleSendCode() {
       if (this.$utils.checkEmail(this.loginform.email)) {
         this.setCountDownTime();
-        this.$api.user.fetchValidateCode(this.loginform.email).then(res => {
-          this.$Notice.open({
-            title: `您的验证码是 : ${res.code}`
-          });
-          setEmailCode(res.code);
-        });
       } else {
         this.$utils.toastTips('warning', '请输入正确邮箱', 1.5);
       }
