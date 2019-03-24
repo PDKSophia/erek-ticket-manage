@@ -53,13 +53,13 @@ const AdminMenu = [
         hasSubmenu: false, // 是否有子菜单
         name: '2-3',
         _to: '/erek-manage/erek-list-standard' // 跳转的链接
-      },
-      {
-        text: '电影票订单',
-        hasSubmenu: false, // 是否有子菜单
-        name: '2-4',
-        _to: '/erek-manage/erek-list-standard' // 跳转的链接
       }
+      // {
+      //   text: '电影票订单',
+      //   hasSubmenu: false, // 是否有子菜单
+      //   name: '2-4',
+      //   _to: '/erek-manage/erek-list-standard' // 跳转的链接
+      // }
     ]
   },
   {
@@ -141,48 +141,48 @@ const AdminMenu = [
     ]
   },
   // 三级菜单栏
-  {
-    text: '电影管理',
-    icon: 'ios-recording-outline',
-    isSubmenu: true,
-    name: '6',
-    list: [
-      {
-        text: '影院管理',
-        hasSubmenu: true,
-        name: '6-1',
-        submenu: [
-          {
-            text: '新增影院',
-            name: '6-1-1',
-            _to: '/erek-manage/erek-safe-admin-role'
-          },
-          {
-            text: '所有影院',
-            name: '6-1-2',
-            _to: '/erek-manage/erek-safe-admin-password'
-          }
-        ]
-      },
-      {
-        text: '电影管理',
-        hasSubmenu: true,
-        name: '6-2',
-        submenu: [
-          {
-            text: '上映电影',
-            name: '6-2-1',
-            _to: '/erek-manage/erek-safe-admin-role'
-          },
-          {
-            text: '所有电影',
-            name: '6-2-2',
-            _to: '/erek-manage/erek-safe-admin-password'
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   text: '电影管理',
+  //   icon: 'ios-recording-outline',
+  //   isSubmenu: true,
+  //   name: '6',
+  //   list: [
+  //     {
+  //       text: '影院管理',
+  //       hasSubmenu: true,
+  //       name: '6-1',
+  //       submenu: [
+  //         {
+  //           text: '新增影院',
+  //           name: '6-1-1',
+  //           _to: '/erek-manage/erek-safe-admin-role'
+  //         },
+  //         {
+  //           text: '所有影院',
+  //           name: '6-1-2',
+  //           _to: '/erek-manage/erek-safe-admin-password'
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       text: '电影管理',
+  //       hasSubmenu: true,
+  //       name: '6-2',
+  //       submenu: [
+  //         {
+  //           text: '上映电影',
+  //           name: '6-2-1',
+  //           _to: '/erek-manage/erek-safe-admin-role'
+  //         },
+  //         {
+  //           text: '所有电影',
+  //           name: '6-2-2',
+  //           _to: '/erek-manage/erek-safe-admin-password'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   {
     text: '城市管理',
     icon: 'ios-color-filter-outline',
