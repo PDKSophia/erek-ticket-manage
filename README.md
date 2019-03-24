@@ -1,6 +1,6 @@
 <div align='center'>
 
-  <img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/logo.png' width=340 height=220>
+  <img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/logo-0.png' width=340 height=220>
 
 ![](https://img.shields.io/badge/vue-2.5.2-blue.svg)
 ![](https://img.shields.io/badge/license-MIT-orange.svg)
@@ -14,7 +14,11 @@
 
 ## 介绍
 
-`Erek-Ticket-Manage` 是基于 [Vue-Erek-Manage](https://github.com/PDKSophia/vue-erek-manage) 快速开发的订单后台管理系统，该订单后台管理系统为博主的毕业设计～小程序端请看这边 👉 [erek-ticket](https://github.com/PDKSophia/erek-ticket)
+`Erek-Ticket-Manage` 是基于 [Vue-Erek-Manage](https://github.com/PDKSophia/vue-erek-manage) 快速开发的订单后台管理系统，该订单后台管理系统为博主的毕业设计～
+
+小程序端请看这边 👉 [erek-ticket](https://github.com/PDKSophia/erek-ticket)
+
+Node 后端请看这边 👉 [erek-ticket-server](https://github.com/PDKSophia/erek-ticket-server)
 
 ## 实现目标
 
