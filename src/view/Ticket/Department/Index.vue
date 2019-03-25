@@ -9,6 +9,8 @@
         @onHandleActions="handleActions"
         :data="deps.data"
         :pagination="deps.pagination"
+        @onHandlePageNum="handleChangeNum"
+        @onHandlePageSize="handleChangeSize"
       />
     </div>
     <depart-form
@@ -26,7 +28,8 @@
 import DepartmentList from 'tkcomponents/FrameComponents/List/Department.vue'
 import VueDivider from 'components/CommonComponents/Divider/Index.vue'
 import DepartForm from 'tkcomponents/FormComponents/Department/Index.vue'
-import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
+
 export default {
   name: 'TicketDepartment',
   components: {
@@ -58,16 +61,39 @@ export default {
       }
     };
   },
+  computed: mapState({
+    isFetch: state => state.department.isFetch,
+    list: state => state.department.list,
+    pageNum: state => state.department.pageNum,
+    pageSize: state => state.department.pageSize,
+    total: state => state.department.total
+  }),
   methods: {
-    ...mapActions(['createDepartment', 'updateDepartment']),
     handleToAddCity() {
       this.dialog.visible = true
       this.dialog.formWidth = 480
       this.dialog.formTitle = this.dialog.formType === 'create' ? '新增部门' : '编辑部门'
     },
+    async handleChangeNum(current) {
+      this.$store.dispatch('setPageNum', current)
+      await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      await this.upNextTick()
+    },
+    async handleChangeSize(size) {
+      this.$store.dispatch('setPageSize', size)
+      await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      await this.upNextTick()
+    },
+    upNextTick() {
+      this.deps.data = [...this.list]
+      this.deps.pagination = {
+        hasPage: true,
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        total: this.total
+      }
+    },
     async handleFetchForm(data, type) {
-      let initailOptions = this.$utils.processInitailDialog()
-      this.dialog = { ...initailOptions }
       if (type === 'submit') {
         const { depart_name, depart_content, depart_count } = data
         let prefix = {
@@ -77,11 +103,15 @@ export default {
         data.depart_prefix = JSON.stringify(prefix)
 
         if (this.dialog.formType === 'create') {
-          const result = await this.createDepartment(data)
+          await this.$store.dispatch('createDepsAsync', data)
+          await this.upNextTick()
         } else {
-          const result = await this.updateDepartment(data)
+          await this.$store.dispatch('updateDepsAsync', data)
+          await this.upNextTick()
         }
       }
+      let initailOptions = this.$utils.processInitailDialog()
+      this.dialog = { ...initailOptions }
     },
     async handleActions(type, data) {
       switch (type) {
@@ -89,19 +119,26 @@ export default {
           console.log(data)
           break
         case 'update':
-          const { depart_count } = JSON.parse(data.depart_prefix)
-          data.depart_count = depart_count
-          delete data.depart_prefix
+          let formdata = JSON.parse(JSON.stringify(data))
+          let depart_count = -1
+          try {
+            depart_count = JSON.parse(formdata.depart_prefix).depart_count
+          } catch (err) {
+            depart_count = formdata.depart_count
+          }
+          formdata.depart_count = depart_count
+          delete formdata.depart_prefix
           this.dialog = {
             visible: true,
             formWidth: 480,
             formType: 'update',
-            formData: data,
-            formTitle: this.dialog.formType === 'create' ? '新增部门' : '编辑部门'
+            formData: formdata,
+            formTitle: '编辑部门'
           }
           break
         case 'delete':
-          console.log(data)
+          await this.$store.dispatch('deleteDepsAsync', data)
+          await this.upNextTick()
           break
         default:
           console.log('no action')
@@ -109,18 +146,10 @@ export default {
     }
   },
   async mounted() {
-    // 请求获取数据
-    const deps = await this.$api.mock.retrieveDepartmentList({
-      pageNum: 1,
-      pageSize: 5
-    })
-    this.deps.data = [...deps.list]
-    this.deps.pagination = {
-      hasPage: true,
-      pageNum: deps.current,
-      pageSize: deps.size,
-      total: deps.total
-    };
+    this.$store.dispatch('setPageNum', 1)
+    this.$store.dispatch('setPageSize', 9)
+    await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+    await this.upNextTick()
   }
 };
 </script>

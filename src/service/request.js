@@ -58,7 +58,7 @@ export default function request(option) {
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers
       }
-      newOptions.data = JSON.parse(JSON.stringify(newOptions.data))
+      newOptions.data = newOptions.data ? JSON.parse(JSON.stringify(newOptions.data)) : {}
     } else {
       newOptions.headers = {
         Accept: 'application/json',

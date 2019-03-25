@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createLogger from 'vuex/dist/logger'
 
 import global from './modules/global'
 import user from './modules/user'
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     table,
     standard,
     department
-  }
+  },
+  plugins: [createLogger()]
 })

@@ -13,7 +13,8 @@ module.exports = {
         js: path.resolve(__dirname, 'src/js/'),
         components: path.resolve(__dirname, 'src/components/'),
         service: path.resolve(__dirname, 'src/service/'),
-        tkcomponents: path.resolve(__dirname, 'src/TicketComponents/')
+        tkcomponents: path.resolve(__dirname, 'src/TicketComponents/'),
+        store: path.resolve(__dirname, 'src/store/')
       }
     }
   }

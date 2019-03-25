@@ -45,6 +45,9 @@
           :current="pagination.pageNum"
           :pageSize="pagination.pageSize"
           showSizer
+          @on-change="onHandlePageNum"
+          :page-size-opts="[9, 18, 30, 60]"
+          @on-page-size-change="onHandlePageSize"
         ></Page>
       </div>
     </div>
@@ -71,13 +74,26 @@ export default {
   methods: {
     onHandleActions(type, data) {
       this.$emit('onHandleActions', type, data)
+    },
+    onHandlePageNum(current) {
+      this.$emit('onHandlePageNum', current)
+    },
+    onHandlePageSize(size) {
+      this.$emit('onHandlePageSize', size)
     }
   },
   watch: {
+    data: {
+      handler(newVal, oldVal) {
+        // console.log(newVal, oldVal)
+      },
+      deep: true
+    },
     pagination: {
       handler(newVal) {
-        console.log(newVal);
-      }
+        // console.log(newVal);
+      },
+      deep: true
     }
   }
 };

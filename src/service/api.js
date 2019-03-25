@@ -5,6 +5,18 @@ import { baseUrl } from 'js/utils/utils'
 
 // 部门模块
 /**
+ * @desc: 分页获取部门列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveDepsList(params) {
+  return request({
+    url: `${baseUrl}/api/department/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
  * @desc: 新增部门
  * @param {Object} payload
  * @return {*}
@@ -26,6 +38,20 @@ export function updateDepartment(payload) {
     url: `${baseUrl}/api/department/update`,
     method: 'PUT',
     data: payload
+  })
+}
+/**
+ * @desc: 删除部门
+ * @param {Number} departId
+ * @return {*}
+ */
+export function deleteDepartment(departId) {
+  return request({
+    url: `${baseUrl}/api/department/delete-id`,
+    method: 'DELETE',
+    params: {
+      departId: departId
+    }
   })
 }
 
