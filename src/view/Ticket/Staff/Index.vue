@@ -5,15 +5,15 @@
     </div>
     <vue-divider :bg-color="divider.bgColor" :height="divider.height"/>
     <div class="erek-card-list">
-      <department-list
+      <staff-list
         @onHandleActions="handleActions"
-        :data="deps.data"
-        :pagination="deps.pagination"
+        :data="staff.data"
+        :pagination="staff.pagination"
         @onHandlePageNum="handleChangeNum"
         @onHandlePageSize="handleChangeSize"
       />
     </div>
-    <depart-form
+    <staff-form
       @onCallbackForm="handleFetchForm"
       :visible="dialog.visible"
       :formData="dialog.formData"
@@ -30,18 +30,18 @@
 </template>
 
 <script>
-import DepartmentList from 'tkcomponents/FrameComponents/List/Department.vue'
+import StaffList from 'tkcomponents/FrameComponents/List/Staff.vue'
 import VueDivider from 'components/CommonComponents/Divider/Index.vue'
-import DepartForm from 'tkcomponents/FormComponents/Department/Index.vue'
+import StaffForm from 'tkcomponents/FormComponents/Staff/Index.vue'
 import DeleteConfirm from 'tkcomponents/CommonComponents/DeleteConfirm/Index.vue'
 import { mapState } from 'vuex'
 
 export default {
-  name: 'TicketDepartment',
+  name: 'TicketStaff',
   components: {
-    DepartmentList,
+    StaffList,
     VueDivider,
-    DepartForm,
+    StaffForm,
     DeleteConfirm
   },
   data() {
@@ -50,7 +50,7 @@ export default {
         bgColor: '#f5f7f9',
         height: '20px'
       },
-      deps: {
+      staff: {
         data: [],
         pagination: {
           hasPage: true,
@@ -74,31 +74,31 @@ export default {
     };
   },
   computed: mapState({
-    isFetch: state => state.department.isFetch,
-    list: state => state.department.list,
-    pageNum: state => state.department.pageNum,
-    pageSize: state => state.department.pageSize,
-    total: state => state.department.total
+    isFetch: state => state.staff.isFetch,
+    list: state => state.staff.list,
+    pageNum: state => state.staff.pageNum,
+    pageSize: state => state.staff.pageSize,
+    total: state => state.staff.total
   }),
   methods: {
     handleToAddCity() {
       this.dialog.visible = true
       this.dialog.formWidth = 480
-      this.dialog.formTitle = '❤️ 新增部门'
+      this.dialog.formTitle = '❤️ 新增员工'
     },
     async handleChangeNum(current) {
-      this.$store.dispatch('setDpesPageNum', current)
-      await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      this.$store.dispatch('setStaffPageNum', current)
+      await this.$store.dispatch('retrieveStaffListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
       await this.upNextTick()
     },
     async handleChangeSize(size) {
-      this.$store.dispatch('setDespPageSize', size)
-      await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      this.$store.dispatch('setStaffPageSize', size)
+      await this.$store.dispatch('retrieveStaffListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
       await this.upNextTick()
     },
     upNextTick() {
-      this.deps.data = [...this.list]
-      this.deps.pagination = {
+      this.staff.data = [...this.list]
+      this.staff.pagination = {
         hasPage: true,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
@@ -107,18 +107,11 @@ export default {
     },
     async handleFetchForm(data, type) {
       if (type === 'submit') {
-        const { depart_name, depart_content, depart_count } = data
-        let prefix = {
-          depart_count: depart_count
-        }
-        delete data.depart_count
-        data.depart_prefix = JSON.stringify(prefix)
-
         if (this.dialog.formType === 'create') {
-          await this.$store.dispatch('createDepsAsync', data)
+          await this.$store.dispatch('createStaffsAsync', data)
           await this.upNextTick()
         } else {
-          await this.$store.dispatch('updateDepsAsync', data)
+          await this.$store.dispatch('updateStaffAsync', data)
           await this.upNextTick()
         }
       }
@@ -127,9 +120,9 @@ export default {
     },
     async handleDelete(type) {
       if (type) {
-        await this.$store.dispatch('deleteDepsAsync', this.delDialog.formData)
+        await this.$store.dispatch('deleteStaffsAsync', this.delDialog.formData)
         await this.upNextTick()
-      } else { }
+      }
       this.delDialog = {
         visible: false,
         deleteName: '',
@@ -143,26 +136,18 @@ export default {
           break
         case 'update':
           let formdata = JSON.parse(JSON.stringify(data))
-          let depart_count = -1
-          try {
-            depart_count = JSON.parse(formdata.depart_prefix).depart_count
-          } catch (err) {
-            depart_count = formdata.depart_count
-          }
-          formdata.depart_count = depart_count
-          delete formdata.depart_prefix
           this.dialog = {
             visible: true,
             formWidth: 480,
             formType: 'update',
             formData: formdata,
-            formTitle: '编辑部门'
+            formTitle: '👉 编辑员工'
           }
           break
         case 'delete':
           this.delDialog = {
             visible: true,
-            deleteName: data.depart_name,
+            deleteName: `员工 : ${data.username}`,
             formData: data
           }
           break
@@ -172,9 +157,9 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('setDpesPageNum', 1)
-    this.$store.dispatch('setDespPageSize', 9)
-    await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+    this.$store.dispatch('setStaffPageNum', 1)
+    this.$store.dispatch('setStaffPageSize', 10)
+    await this.$store.dispatch('retrieveStaffListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
     await this.upNextTick()
   }
 };
