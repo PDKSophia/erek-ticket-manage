@@ -60,6 +60,9 @@ import TicketCodeSearch from '@/view/Ticket/Search/TicketCode'
 // 部门管理
 import DepartmentComponents from '@/view/Ticket/Department/Index'
 
+// 员工管理
+import StaffComponents from '@/view/Ticket/Staff/Index'
+
 // 个人页
 import UserComponents from '@/view/Ticket/User/Index'
 import VueErekUserSetting from '@/view/Manage/VueErekUser/Setting'
@@ -360,6 +363,15 @@ const router = new Router({
           path: 'erek-department/list',
           name: 'DepartmentComponents',
           component: DepartmentComponents,
+          meta: {
+            keepAlive: false
+          }
+        },
+        // 员工管理
+        {
+          path: 'erek-staff/list',
+          name: 'StaffComponents',
+          component: StaffComponents,
           meta: {
             keepAlive: false
           }

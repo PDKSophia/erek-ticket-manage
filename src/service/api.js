@@ -55,6 +55,58 @@ export function deleteDepartment(departId) {
   })
 }
 
+// 员工模块
+/**
+ * @desc: 分页获取员工列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveStaffList(params) {
+  return request({
+    url: `${baseUrl}/api/staff/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增员工
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createStaff(payload) {
+  return request({
+    url: `${baseUrl}/api/staff/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑员工
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateStaff(payload) {
+  return request({
+    url: `${baseUrl}/api/staff/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除员工
+ * @param {Number} staffId
+ * @return {*}
+ */
+export function deleteStaff(staffId) {
+  return request({
+    url: `${baseUrl}/api/staff/delete-id`,
+    method: 'DELETE',
+    params: {
+      staffId: staffId
+    }
+  })
+}
+
 export default {
   // 登陆模块
   /**
