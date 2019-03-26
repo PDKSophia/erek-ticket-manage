@@ -7,6 +7,7 @@ import user from './modules/user'
 import table from './modules/table'
 import standard from './modules/standard'
 import department from './modules/department'
+import staff from './modules/staff'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
     user,
     table,
     standard,
-    department
+    department,
+    staff
   },
   plugins: [createLogger()]
 })

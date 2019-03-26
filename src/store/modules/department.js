@@ -17,11 +17,11 @@ import {
 
 const types = {
   RETRIEVE_DEPARTMENT_LIST: 'RETRIEVE_DEPARTMENT_LIST',
-  CREATE_DEPAETMENT: 'CREATE_DEPAETMENT',
-  UPDATE_DEPAETMENT: 'UPDATE_DEPAETMENT',
-  DELETE_DEPAETMENT: 'DELETE_DEPAETMENT',
-  SET_PAGE_NUM: 'SET_PAGE_NUM',
-  SET_PAGE_SIZE: 'SET_PAGE_SIZE'
+  CREATE_DEPARTMENT: 'CREATE_DEPARTMENT',
+  UPDATE_DEPARTMENT: 'UPDATE_DEPARTMENT',
+  DELETE_DEPARTMENT: 'DELETE_DEPARTMENT',
+  SET_DEPS_PAGE_NUM: 'SET_DEPS_PAGE_NUM',
+  SET_DEPS_PAGE_SIZE: 'SET_DEPS_PAGE_SIZE'
 }
 
 const actions = {
@@ -36,7 +36,7 @@ const actions = {
   async createDepsAsync({ commit }, payload, callback) {
     try {
       const data = await createDepartment(payload)
-      commit(types.CREATE_DEPAETMENT, { data: data })
+      commit(types.CREATE_DEPARTMENT, { data: data })
       Message.success({
         content: '新增部门成功',
         duration: 1.5
@@ -52,7 +52,7 @@ const actions = {
   async updateDepsAsync({ commit }, payload, callback) {
     try {
       const data = await updateDepartment(payload)
-      commit(types.UPDATE_DEPAETMENT, { data: data })
+      commit(types.UPDATE_DEPARTMENT, { data: data })
       Message.success({
         content: '更新部门成功',
         duration: 1.5
@@ -69,7 +69,7 @@ const actions = {
   async deleteDepsAsync({ commit }, payload, callback) {
     try {
       await deleteDepartment(payload.id)
-      commit(types.DELETE_DEPAETMENT, { data: payload })
+      commit(types.DELETE_DEPARTMENT, { data: payload })
       Message.success({
         content: '删除部门成功',
         duration: 1.5
@@ -82,11 +82,11 @@ const actions = {
       }
     }
   },
-  async setPageNum({ commit }, pageNum) {
-    await commit(types.SET_PAGE_NUM, { data: pageNum })
+  async setDpesPageNum({ commit }, pageNum) {
+    await commit(types.SET_DEPS_PAGE_NUM, { data: pageNum })
   },
-  async setPageSize({ commit }, pageSize) {
-    await commit(types.SET_PAGE_SIZE, { data: pageSize })
+  async setDespPageSize({ commit }, pageSize) {
+    await commit(types.SET_DEPS_PAGE_SIZE, { data: pageSize })
   }
 }
 const state = {
@@ -104,27 +104,27 @@ const mutations = {
     state.pageSize = payload.data.size
     state.total = payload.data.count
   },
-  [types.CREATE_DEPAETMENT](state, payload) {
+  [types.CREATE_DEPARTMENT](state, payload) {
     let cList = state.list
     cList.unshift(payload.data)
     state.list = [...cList]
   },
-  [types.UPDATE_DEPAETMENT](state, payload) {
+  [types.UPDATE_DEPARTMENT](state, payload) {
     let uList = state.list.map(item => {
       return item.id === payload.data.id ? payload.data : item
     })
     state.list = [...uList]
   },
-  [types.DELETE_DEPAETMENT](state, payload) {
+  [types.DELETE_DEPARTMENT](state, payload) {
     let dList = state.list.filter(item => {
       return item.id !== payload.data.id
     })
     state.list = [...dList]
   },
-  [types.SET_PAGE_NUM](state, payload) {
+  [types.SET_DEPS_PAGE_NUM](state, payload) {
     state.pageNum = payload.data
   },
-  [types.SET_PAGE_SIZE](state, payload) {
+  [types.SET_DEPS_PAGE_SIZE](state, payload) {
     state.pageSize = payload.data
   }
 }
