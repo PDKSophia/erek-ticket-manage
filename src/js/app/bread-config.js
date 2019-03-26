@@ -26,6 +26,7 @@ const BreadItem = {
   '/erek-manage/erek-search/simple': '查询管理-简单查询',
   '/erek-manage/erek-search/ticket-code': '查询管理-订单号查询',
   '/erek-manage/erek-department/list': '部门管理',
+  '/erek-manage/erek-staff/list': '用户管理',
   '/erek-manage/erek-user/user-info': '个人页-个人中心',
   '/erek-manage/erek-user/setting': '个人页-个人设置'
 }

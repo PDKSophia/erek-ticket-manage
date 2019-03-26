@@ -203,7 +203,6 @@ const AdminMenu = [
       }
     ]
   },
-
   {
     text: '部门管理',
     icon: 'ios-people-outline',
@@ -212,21 +211,28 @@ const AdminMenu = [
     _to: '/erek-manage/erek-department/list' // 跳转的链接
   },
   {
+    text: '用户管理',
+    icon: 'ios-body-outline',
+    isSubmenu: false, // 是否有子菜单
+    name: '10',
+    _to: '/erek-manage/erek-staff/list' // 跳转的链接
+  },
+  {
     text: '个人中心',
     icon: 'ios-person-outline',
     isSubmenu: true,
-    name: '10',
+    name: '11',
     list: [
       {
         text: '个人信息',
         hasSubmenu: false, // 是否有子菜单
-        name: '10-1',
+        name: '11-1',
         _to: '/erek-manage/erek-user/user-info' // 跳转的链接
       },
       {
         text: '个人设置',
         hasSubmenu: false, // 是否有子菜单
-        name: '10-2',
+        name: '11-2',
         _to: '/erek-manage/erek-user/setting' // 跳转的链接
       }
     ]
