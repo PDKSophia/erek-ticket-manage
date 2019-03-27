@@ -83,10 +83,24 @@ export default {
     })
   },
 
-  // 部门管理
-  retrieveDepartmentList: payload => {
+  /**
+   * desc: 获取所有城市卡片
+   * @return {*}
+   */
+  retrieveCityStatus: () => {
     return request({
-      url: `${mockURL}/department/get-all?pageNum=${payload.pageNum}&pageSize=${payload.pageSize}`,
+      url: `${mockURL}/city/get-status`,
+      method: 'GET',
+      token: getAuthorityToken()
+    })
+  },
+  /**
+   * desc: 获取城市列表
+   * @return {*}
+   */
+  retrieveCityList: () => {
+    return request({
+      url: `${mockURL}/city/get-all`,
       method: 'GET',
       token: getAuthorityToken()
     })

@@ -107,6 +107,69 @@ export function deleteStaff(staffId) {
   })
 }
 
+// 城市模块
+/**
+ * desc: 获取所有城市卡片
+ * @return {*}
+ */
+export function retrieveCityStatus() {
+  return request({
+    url: `${baseUrl}/api/city/get-status`,
+    method: 'GET',
+    token: getAuthorityToken()
+  })
+}
+/**
+ * @desc: 分页获取部门列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveCityList(params) {
+  return request({
+    url: `${baseUrl}/api/city/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增城市
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createCity(payload) {
+  return request({
+    url: `${baseUrl}/api/city/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑城市
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateCity(payload) {
+  return request({
+    url: `${baseUrl}/api/city/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除城市
+ * @param {Number} cityId
+ * @return {*}
+ */
+export function deleteCity(cityId) {
+  return request({
+    url: `${baseUrl}/api/city/delete-id`,
+    method: 'DELETE',
+    params: {
+      cityId: cityId
+    }
+  })
+}
+
 export default {
   // 登陆模块
   /**
@@ -145,25 +208,23 @@ export default {
       method: 'GET'
     })
   },
+  /**
+   * @desc: 文件上传
+   * @param {Blob} files 文件
+   * @return {*}
+   */
+  uploadFiles: files => {
+    let formdata = new FormData()
+    formdata.append('imageName', files.name)
+    formdata.append('image', files)
 
-  /**
-   * desc: 获取所有城市卡片
-   * @return {*}
-   */
-  retrieveCityStatus: () => {
-    return request(`${baseUrl}/city/get-status`, {
-      method: 'GET',
-      token: getAuthorityToken()
-    })
-  },
-  /**
-   * desc: 获取城市列表
-   * @return {*}
-   */
-  retrieveCityList: () => {
-    return request(`${baseUrl}/city/get-all`, {
-      method: 'GET',
-      token: getAuthorityToken()
+    return request({
+      url: `${baseUrl}/api/files/upload`,
+      method: 'POST',
+      data: formdata,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     })
   }
 }

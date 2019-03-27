@@ -1,7 +1,7 @@
 <template>
   <div class="erek-card-container">
     <div class="erek-depart-add">
-      <Button type="dashed" long icon="ios-add" @click="handleToAddCity">新增</Button>
+      <Button type="dashed" long icon="ios-add" @click="handleToAddClick">新增</Button>
     </div>
     <vue-divider :bg-color="divider.bgColor" :height="divider.height"/>
     <div class="erek-card-list">
@@ -81,18 +81,18 @@ export default {
     total: state => state.department.total
   }),
   methods: {
-    handleToAddCity() {
+    handleToAddClick() {
       this.dialog.visible = true
       this.dialog.formWidth = 480
       this.dialog.formTitle = '❤️ 新增部门'
     },
     async handleChangeNum(current) {
-      this.$store.dispatch('setDpesPageNum', current)
+      this.$store.dispatch('setDepsPageNum', current)
       await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
       await this.upNextTick()
     },
     async handleChangeSize(size) {
-      this.$store.dispatch('setDespPageSize', size)
+      this.$store.dispatch('setDepsPageSize', size)
       await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
       await this.upNextTick()
     },
@@ -172,8 +172,8 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('setDpesPageNum', 1)
-    this.$store.dispatch('setDespPageSize', 9)
+    this.$store.dispatch('setDepsPageNum', 1)
+    this.$store.dispatch('setDepsPageSize', 9)
     await this.$store.dispatch('retrieveDepsListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
     await this.upNextTick()
   }

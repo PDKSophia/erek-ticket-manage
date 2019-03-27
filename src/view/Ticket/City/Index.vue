@@ -3,26 +3,26 @@
     <div class="flex-container">
       <Row style="width: 70%" :gutter="32">
         <i-col span="20">
-          <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+          <Form ref="city_form" :model="city_form" :rules="ruleValidate" :label-width="80">
             <FormItem label="城市名称" prop="city_name">
-              <Input v-model="formValidate.city_name" placeholder="城市名称..."/>
+              <Input v-model="city_form.city_name" placeholder="城市名称..."/>
             </FormItem>
             <FormItem label="城市状态" prop="city_status">
-              <RadioGroup v-model="formValidate.city_status">
+              <RadioGroup v-model="city_form.city_status">
                 <Radio label="1">省会</Radio>
                 <Radio label="2">其他</Radio>
               </RadioGroup>
             </FormItem>
             <FormItem label="城市简介" prop="city_desc">
               <Input
-                v-model="formValidate.city_desc"
+                v-model="city_form.city_desc"
                 type="textarea"
                 :autosize="{ minRows: 5, maxRows: 10 }"
                 placeholder="简介..."
               />
             </FormItem>
             <FormItem label="封面URL" prop="city_cover">
-              <Input v-model="formValidate.city_cover" placeholder="城市名称..."/>
+              <Input v-model="city_form.city_cover" placeholder="城市封面"/>
             </FormItem>
             <FormItem label="选择封面">
               <Upload type="drag" :before-upload="handleCoverUpload" action>
@@ -34,8 +34,8 @@
               </Upload>
             </FormItem>
             <FormItem>
-              <Button type="primary" @click="handleSubmit('formValidate')">新建</Button>
-              <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+              <Button type="primary" @click="handleSubmit('city_form')">新建</Button>
+              <Button @click="handleReset('city_form')" style="margin-left: 8px">重置</Button>
             </FormItem>
           </Form>
         </i-col>
@@ -45,13 +45,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   name: 'CityComponents',
   data() {
     return {
       file: null,
-      formValidate: {
+      city_form: {
         city_name: '',
         city_desc: '',
         city_cover: '',
@@ -59,10 +59,10 @@ export default {
       },
       initDataLoading: true,
       ruleValidate: {
-        city_name: [{ required: true, message: '名字不能为空', tigger: 'blur' }],
-        city_status: [{ required: true, message: '性别不能为空', tigger: 'change' }],
+        city_name: [{ required: true, message: '城市名称不能为空', tigger: 'blur' }],
+        city_status: [{ required: true, message: '城市状态必选', tigger: 'change' }],
         city_desc: [
-          { required: true, message: '请输入个人简介', trigger: 'blur' },
+          { required: true, message: '请输入城市简介', trigger: 'blur' },
           {
             type: 'string',
             min: 10,
@@ -75,17 +75,22 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['setErekUser']),
     // 选中封面
-    handleCoverUpload(file) {
-      console.log(file)
+    async handleCoverUpload(file) {
       this.file = file
-      // 这里就发送 api，回传一个 url，然后填充到url字段
+      this.city_form.city_cover = file.name
+
     },
-    handleSubmit(name) {
-      this.$refs[name].validate(valid => {
+    async handleSubmit(name) {
+      this.$refs[name].validate(async valid => {
         if (valid) {
-          this.$utils.toastTips('success', '修改成功!', 1.5);
+          // 上传图片
+          const iUrl = await this.$api.api.uploadFiles(this.file)
+          this.city_form.city_cover = iUrl
+          await this.$store.dispatch('createCityAsync', this.city_form)
+          setTimeout(() => {
+            this.handleReset('city_form')
+          }, 2000)
         } else {
           this.$utils.toastTips('error', 'Fail!', 1.5);
         }

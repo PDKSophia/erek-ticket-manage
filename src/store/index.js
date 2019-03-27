@@ -8,6 +8,7 @@ import table from './modules/table'
 import standard from './modules/standard'
 import department from './modules/department'
 import staff from './modules/staff'
+import city from './modules/city'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
     table,
     standard,
     department,
-    staff
+    staff,
+    city
   },
   plugins: [createLogger()]
 })

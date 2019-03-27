@@ -51,7 +51,7 @@ export default function request(option) {
     newOptions.method === 'PUT' ||
     newOptions.method === 'DELETE'
   ) {
-    if (!(newOptions.body instanceof FormData)) {
+    if (!(newOptions.data instanceof FormData)) {
       newOptions.headers = {
         Accept: 'application/json',
         xAutToken: getAuthorityToken(),

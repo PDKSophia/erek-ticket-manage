@@ -82,10 +82,10 @@ const actions = {
       }
     }
   },
-  async setDpesPageNum({ commit }, pageNum) {
+  async setDepsPageNum({ commit }, pageNum) {
     await commit(types.SET_DEPS_PAGE_NUM, { data: pageNum })
   },
-  async setDespPageSize({ commit }, pageSize) {
+  async setDepsPageSize({ commit }, pageSize) {
     await commit(types.SET_DEPS_PAGE_SIZE, { data: pageSize })
   }
 }

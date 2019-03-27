@@ -1,27 +1,44 @@
 <template>
   <div class="erek-standard-container">
-    <vue-stand-card :taskList="taskList"/>
+    <vue-stand-card :taskList="statusList"/>
     <vue-divider :bgColor="divider.bgColor" :height="divider.height"/>
     <div class="erek-standard-list">
       <h3>所有城市列表</h3>
-      <Button type="dashed" long icon="ios-add" @click="handleToAddCity">新增</Button>
+      <Button type="dashed" long icon="ios-add" @click="handleToAddClick">新增</Button>
       <erek-stand-list
-        :data="standConfig.data"
-        :pagination="standConfig.pagination"
-        @onHandleClickStandItem="handleCallback"
-        v-if="standConfig.data.length !== 0"
+        :data="city.data"
+        :pagination="city.pagination"
+        @onHandleActions="handleActions"
+        v-if="city.data.length !== 0"
+        @onHandlePageNum="handleChangeNum"
+        @onHandlePageSize="handleChangeSize"
       ></erek-stand-list>
       <no-content v-else/>
+      <city-form
+        @onCallbackForm="handleFetchForm"
+        :visible="dialog.visible"
+        :formData="dialog.formData"
+        :formType="dialog.formType"
+        :formTitle="dialog.formTitle"
+        :formWidth="dialog.formWidth"
+      />
+      <delete-confirm
+        @onHandleClickDelete="handleDelete"
+        :visible="delDialog.visible"
+        :deleteName="delDialog.deleteName"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import VueStandCard from 'components/CommonComponents/StandCard/Index.vue';
-import VueDivider from 'components/CommonComponents/Divider/Index.vue';
-import ErekStandList from 'tkcomponents/FrameComponents/List/Standard.vue';
-import NoContent from 'components/CommonComponents/NoContent/Index.vue';
-import { mapState, mapActions } from 'vuex';
+import VueStandCard from 'tkcomponents/CommonComponents/StandCard/Index.vue'
+import VueDivider from 'components/CommonComponents/Divider/Index.vue'
+import ErekStandList from 'tkcomponents/FrameComponents/List/City.vue'
+import NoContent from 'components/CommonComponents/NoContent/Index.vue'
+import CityForm from 'tkcomponents/FormComponents/City/Index.vue'
+import DeleteConfirm from 'tkcomponents/CommonComponents/DeleteConfirm/Index.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'CityListComponents',
@@ -29,15 +46,17 @@ export default {
     VueStandCard,
     VueDivider,
     ErekStandList,
-    NoContent
+    NoContent,
+    CityForm,
+    DeleteConfirm
   },
   computed: mapState({
-    isFetch: state => state.standard.isFetch,
-    list: state => state.standard.list,
-    taskStatusList: state => state.standard.taskStatusList,
-    pageNum: state => state.standard.pageNum,
-    pageSize: state => state.standard.pageSize,
-    total: state => state.standard.total
+    statusList: state => state.city.statusList,
+    list: state => state.city.list,
+    taskStatusList: state => state.city.taskStatusList,
+    pageNum: state => state.city.pageNum,
+    pageSize: state => state.city.pageSize,
+    total: state => state.city.total
   }),
   data() {
     return {
@@ -46,7 +65,7 @@ export default {
         bgColor: '#f5f7f9',
         height: '30px'
       },
-      standConfig: {
+      city: {
         data: [],
         pagination: {
           hasPage: true,
@@ -54,68 +73,105 @@ export default {
           pageSize: 0,
           total: 0
         }
+      },
+      dialog: {
+        visible: false,
+        formData: null,
+        formType: 'create',
+        formTitle: '',
+        formWidth: 500
+      },
+      delDialog: {
+        visible: false,
+        deleteName: '',
+        formData: null
       }
-    };
-  },
-  methods: {
-    ...mapActions([
-      'startFetch',
-      'stopFetch',
-      'retrieveTaskStatusList',
-      'retrieveStandardList'
-    ]),
-    handleToAddCity() {
-      this.$router.push({ path: '/erek-manage/erek-city/add-city' })
-    },
-    handleCallback(value, type) {
-      this.$utils.toastTips(
-        'info',
-        `你当前点击类型 : ${type}, 点击的item id为 : ${value.id}`,
-        1
-      );
     }
   },
-  mounted() {
-    if (this.isFetch) {
-      this.taskList = [...this.taskStatusList];
-      this.standConfig.data = [...this.list];
-      this.standConfig.pagination = {
+  methods: {
+    handleToAddClick() {
+      this.$router.push({ path: '/erek-manage/erek-city/add-city' })
+    },
+    async handleChangeNum(current) {
+      this.$store.dispatch('setCityPageNum', current)
+      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      await this.upNextTick()
+    },
+    async handleChangeSize(size) {
+      this.$store.dispatch('setCityPageSize', size)
+      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+      await this.upNextTick()
+    },
+    upNextTick() {
+      this.city.data = [...this.list]
+      this.city.pagination = {
         hasPage: true,
         pageNum: this.pageNum,
         pageSize: this.pageSize,
         total: this.total
-      };
-    } else {
-      this.startFetch();
-      // 请求获取所有任务
-      this.$api.api.retrieveCityStatus().then(res => {
-        for (let i = 0; i < res.length; i++) {
-          this.taskList.push(res[i]);
+      }
+    },
+    async handleFetchForm(data, type) {
+      if (type === 'submit') {
+        if (this.dialog.formType === 'create') {
+          await this.$store.dispatch('createCityAsync', data)
+          await this.upNextTick()
+        } else {
+          await this.$store.dispatch('updateCityAsync', data)
+          await this.upNextTick()
         }
-        this.retrieveTaskStatusList(res); // 存至Vuex
-      });
-      // 请求获取数据
-      this.$api.api.retrieveCityList().then(res => {
-        this.standConfig.data = [...res.list];
-        this.standConfig.pagination = {
-          hasPage: true,
-          pageNum: res.current,
-          pageSize: res.size,
-          total: res.total
-        };
-        this.retrieveStandardList(res);
-        setTimeout(() => {
-          this.stopFetch();
-        }, 1000);
-      });
+      }
+      let initailOptions = this.$utils.processInitailDialog()
+      this.dialog = { ...initailOptions }
+    },
+    async handleDelete(type) {
+      if (type) {
+        await this.$store.dispatch('deleteCityAsync', this.delDialog.formData)
+        await this.upNextTick()
+      }
+      this.delDialog = {
+        visible: false,
+        deleteName: '',
+        formData: null
+      }
+    },
+    async handleActions(type, data) {
+      switch (type) {
+        case 'update':
+          let formdata = JSON.parse(JSON.stringify(data))
+          this.dialog = {
+            visible: true,
+            formWidth: 480,
+            formType: 'update',
+            formData: formdata,
+            formTitle: '🏠 编辑城市'
+          }
+          break
+        case 'delete':
+          this.delDialog = {
+            visible: true,
+            deleteName: `城市 : ${data.city_name}`,
+            formData: data
+          }
+          break
+        default:
+          console.log('no action')
+      }
     }
+  },
+  async mounted() {
+    await this.$store.dispatch('retrieveCityStatusAsync')
+    this.$store.dispatch('setCityPageNum', 1)
+    this.$store.dispatch('setCityPageSize', 5)
+    await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.pageNum, pageSize: this.pageSize })
+    await this.upNextTick()
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
 .erek-standard-container {
-  // height: 100%;
+  // height: 100%
   width: 100%;
   background-color: #fff;
 

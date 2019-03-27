@@ -3,7 +3,12 @@
     <div class="vue-flex-item" v-for="(item, index) in data" :key="index">
       <div class="vue-erek-item-meta">
         <div class="vue-erek-item-meta-avatar">
-          <img class="vue-erek-item-meta-avatar-image" :src="item.city_cover" alt>
+          <img
+            crossorigin
+            class="vue-erek-item-meta-avatar-image"
+            :src="'http://localhost:2442/' + item.city_cover"
+            alt
+          >
         </div>
         <div class="vue-erek-item-meta-content">
           <h4 class="vue-erek-item-meta-title">{{ item.city_name }}</h4>
@@ -12,8 +17,8 @@
       </div>
       <div class="vue-erek-item-action">
         <ul>
-          <li class="vue-erek-edit" @click="handleOnClickEdit(item)">编辑</li>
-          <li class="vue-erek-delete" @click="handleOnClickDelete(item)">删除</li>
+          <li class="vue-erek-edit" @click="onHandleActions('update', item)">编辑</li>
+          <li class="vue-erek-delete" @click="onHandleActions('delete', item)">删除</li>
         </ul>
       </div>
     </div>
@@ -25,6 +30,9 @@
           :current="pagination.pageNum"
           :pageSize="pagination.pageSize"
           showSizer
+          @on-change="onHandlePageNum"
+          :page-size-opts="[5, 10, 20, 30]"
+          @on-page-size-change="onHandlePageSize"
         ></Page>
       </div>
     </div>
@@ -60,11 +68,14 @@ export default {
     }
   },
   methods: {
-    handleOnClickEdit(item) {
-      this.$emit('onHandleClickStandItem', item, 'edit');
+    onHandleActions(type, data) {
+      this.$emit('onHandleActions', type, data)
     },
-    handleOnClickDelete(item) {
-      this.$emit('onHandleClickStandItem', item, 'delete');
+    onHandlePageNum(current) {
+      this.$emit('onHandlePageNum', current)
+    },
+    onHandlePageSize(size) {
+      this.$emit('onHandlePageSize', size)
     }
   }
 };
