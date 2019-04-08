@@ -9,18 +9,20 @@ import standard from './modules/standard'
 import department from './modules/department'
 import staff from './modules/staff'
 import city from './modules/city'
+import bus from './modules/bus'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    global,
-    user,
-    table,
-    standard,
-    department,
-    staff,
-    city
-  },
-  plugins: [createLogger()]
+	modules: {
+		global,
+		user,
+		table,
+		standard,
+		department,
+		staff,
+		city,
+		bus
+	},
+	plugins: [createLogger()]
 })

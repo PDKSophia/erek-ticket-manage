@@ -2,28 +2,30 @@
   <div class="city-container">
     <Row :gutter="32">
       <i-col span="15">
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <Form ref="bus_pos_form" :model="bus_pos_form" :rules="busPosValidate" :label-width="80">
           <FormItem label="车站名称" prop="bus_name">
-            <Input v-model="formValidate.bus_name" placeholder="车站名称..."/>
+            <Input v-model="bus_pos_form.bus_name" placeholder="车站名称..."/>
           </FormItem>
           <FormItem label="所属城市" prop="cityId">
-            <Select v-model="formValidate.cityId">
-              <Option value="beijing">北京</Option>
-              <Option value="shanghai">上海</Option>
-              <Option value="shenzhen">深圳</Option>
+            <Select v-model="bus_pos_form.cityId">
+              <Option
+                v-for="(city, index) in cityList"
+                :value="city.id"
+                :key="index"
+              >{{ city.city_name }}</Option>
             </Select>
           </FormItem>
           <FormItem label="车站简介" prop="desc">
             <Input
-              v-model="formValidate.desc"
+              v-model="bus_pos_form.desc"
               type="textarea"
               :autosize="{ minRows: 5, maxRows: 10 }"
               placeholder="简介..."
             />
           </FormItem>
           <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">新建</Button>
-            <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+            <Button type="primary" @click="handleSubmit('bus_pos_form')">新建</Button>
+            <Button @click="handleReset('bus_pos_form')" style="margin-left: 8px">重置</Button>
           </FormItem>
         </Form>
       </i-col>
@@ -32,20 +34,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { retrieveCityList } from 'service/api'
+
 export default {
   name: 'BusPosition',
+  computed: mapState({
+    list: state => state.city.list,
+  }),
   data() {
     return {
-      file: null,
-      formValidate: {
+      cityList: [],
+      bus_pos_form: {
         bus_name: '',
         desc: '',
         cityId: '',
       },
-      initDataLoading: true,
-      ruleValidate: {
+      busPosValidate: {
         bus_name: [{ required: true, message: '车站名称不能为空', tigger: 'blur' }],
-        cityId: [{ required: true, message: '必须勾选城市', tigger: 'change' }],
+        cityId: [{ required: true, message: '必须勾选城市', }],
         desc: [
           { required: true, message: '请输入车站简介', trigger: 'blur' },
           {
@@ -59,10 +66,23 @@ export default {
     };
   },
   methods: {
-    handleSubmit(name) {
-      this.$refs[name].validate(valid => {
+    async handleSubmit(name) {
+      this.$refs[name].validate(async valid => {
         if (valid) {
-          this.$utils.toastTips('success', '修改成功!', 1.5);
+          let citys = this.$utils.filterArray(this.cityList, 'id', this.bus_pos_form.cityId)
+          let prefix = {
+            desc: this.bus_pos_form.desc,
+            cityName: citys[0].city_name
+          }
+          let options = {
+            bus_name: this.bus_pos_form.bus_name,
+            cityId: this.bus_pos_form.cityId,
+            prefix: JSON.stringify(prefix)
+          }
+          await this.$store.dispatch('createBusPosAsync', options)
+          setTimeout(() => {
+            this.handleReset('bus_pos_form')
+          }, 100)
         } else {
           this.$utils.toastTips('error', 'Fail!', 1.5);
         }
@@ -72,7 +92,17 @@ export default {
       this.$refs[name].resetFields();
     }
   },
-  mounted() {
+  async mounted() {
+    if (this.list.length === 0) {
+      await retrieveCityList({
+        pageNum: 1,
+        pageSize: 100
+      }).then(res => {
+        this.cityList = [...res.list]
+      })
+    } else {
+      this.cityList = [...this.list]
+    }
   }
 };
 </script>

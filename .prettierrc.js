@@ -4,5 +4,5 @@ module.exports = {
   trailingComma: 'none',
   bracketSpacing: true,
   semi: false,
-  jsxSingleQuote: true
+  jsxSingleQuote: true,
 }

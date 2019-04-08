@@ -57,7 +57,6 @@ export default {
         city_cover: '',
         city_status: '',
       },
-      initDataLoading: true,
       ruleValidate: {
         city_name: [{ required: true, message: '城市名称不能为空', tigger: 'blur' }],
         city_status: [{ required: true, message: '城市状态必选', tigger: 'change' }],

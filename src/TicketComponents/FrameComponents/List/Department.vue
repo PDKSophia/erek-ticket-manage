@@ -45,8 +45,9 @@
           :current="pagination.pageNum"
           :pageSize="pagination.pageSize"
           showSizer
-          @on-change="onHandlePageNum"
+          transfer
           :page-size-opts="[9, 18, 30, 60]"
+          @on-change="onHandlePageNum"
           @on-page-size-change="onHandlePageSize"
         ></Page>
       </div>

@@ -120,7 +120,7 @@ export function retrieveCityStatus() {
   })
 }
 /**
- * @desc: 分页获取部门列表
+ * @desc: 分页获取城市列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -166,6 +166,58 @@ export function deleteCity(cityId) {
     method: 'DELETE',
     params: {
       cityId: cityId
+    }
+  })
+}
+
+// 汽车模块
+/**
+ * @desc: 分页获取汽车站点列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveBusPostionList(params) {
+  return request({
+    url: `${baseUrl}/api/bus/position/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createBusPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/bus/position/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateBusPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/bus/position/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除汽车站点
+ * @param {Number} posId
+ * @return {*}
+ */
+export function deleteBusPosition(posId) {
+  return request({
+    url: `${baseUrl}/api/bus/position/delete-id`,
+    method: 'DELETE',
+    params: {
+      posId: posId
     }
   })
 }
