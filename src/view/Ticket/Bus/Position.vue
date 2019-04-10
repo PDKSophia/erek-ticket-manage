@@ -9,7 +9,7 @@
           <FormItem label="所属城市" prop="cityId">
             <Select v-model="bus_pos_form.cityId">
               <Option
-                v-for="(city, index) in cityList"
+                v-for="(city, index) in citys"
                 :value="city.id"
                 :key="index"
               >{{ city.city_name }}</Option>
@@ -40,11 +40,12 @@ import { retrieveCityList } from 'service/api'
 export default {
   name: 'BusPosition',
   computed: mapState({
-    list: state => state.city.list,
+    isFetch: state => state.app.isFetch,
+    cityList: state => state.app.cityList,
   }),
   data() {
     return {
-      cityList: [],
+      citys: [],
       bus_pos_form: {
         bus_name: '',
         desc: '',
@@ -69,10 +70,10 @@ export default {
     async handleSubmit(name) {
       this.$refs[name].validate(async valid => {
         if (valid) {
-          let citys = this.$utils.filterArray(this.cityList, 'id', this.bus_pos_form.cityId)
+          let city = this.$utils.filterArray(this.cityList, 'id', this.bus_pos_form.cityId)
           let prefix = {
             desc: this.bus_pos_form.desc,
-            cityName: citys[0].city_name
+            cityName: city[0].city_name
           }
           let options = {
             bus_name: this.bus_pos_form.bus_name,
@@ -93,15 +94,15 @@ export default {
     }
   },
   async mounted() {
-    if (this.list.length === 0) {
-      await retrieveCityList({
+    if (this.isFetch) {
+      this.citys = [...this.cityList]
+    } else {
+      retrieveCityList({
         pageNum: 1,
         pageSize: 100
       }).then(res => {
-        this.cityList = [...res.list]
+        this.citys = [...res.list]
       })
-    } else {
-      this.cityList = [...this.list]
     }
   }
 };

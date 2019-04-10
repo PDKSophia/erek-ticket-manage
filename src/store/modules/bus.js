@@ -12,11 +12,11 @@ import {
 	retrieveBusPostionList,
 	createBusPosition,
 	updateBusPosition,
-	deleteBusPosition
-	//   retrieveBusLineList,
-	//   createBusLine,
-	//   updateBusLine,
-	//   deleteBusLine
+	deleteBusPosition,
+	retrieveBusLineList,
+	createBusLine,
+	updateBusLine,
+	deleteBusLine
 } from '../../service/api'
 
 const types = {
@@ -25,7 +25,13 @@ const types = {
 	UPDATE_BUS_POSITION: 'UPDATE_BUS_POSITION',
 	DELETE_BUS_POSITION: 'DELETE_BUS_POSITION',
 	SET_BUS_POS_PAGE_NUM: 'SET_BUS_POS_PAGE_NUM',
-	SET_BUS_POS_PAGE_SIZE: 'SET_BUS_POS_PAGE_SIZE'
+	SET_BUS_POS_PAGE_SIZE: 'SET_BUS_POS_PAGE_SIZE',
+	RETRIEVE_BUS_LINE_LIST: 'RETRIEVE_BUS_LINE_LIST',
+	CREATE_BUS_LINE: 'CREATE_BUS_LINE',
+	UPDATE_BUS_LINE: 'UPDATE_BUS_LINE',
+	DELETE_BUS_LINE: 'DELETE_BUS_LINE',
+	SET_BUS_LINE_PAGE_NUM: 'SET_BUS_LINE_PAGE_NUM',
+	SET_BUS_LINE_PAGE_SIZE: 'SET_BUS_LINE_PAGE_SIZE'
 }
 
 const actions = {
@@ -93,6 +99,71 @@ const actions = {
 	},
 	async setBusPosPageSize({ commit }, pageSize) {
 		await commit(types.SET_BUS_POS_PAGE_SIZE, { data: pageSize })
+	},
+	// 分页获取汽车班次
+	async retrieveBusLineAsync({ commit }, payload) {
+		try {
+			const data = await retrieveBusLineList(payload)
+			commit(types.RETRIEVE_BUS_LINE_LIST, { data: data })
+		} catch (err) { }
+	},
+	// 新增汽车班次
+	async createBusLineAsync({ commit }, payload, callback) {
+		try {
+			const data = await createBusLine(payload)
+			commit(types.CREATE_BUS_LINE, { data: data })
+			Message.success({
+				content: '新增汽车班次成功',
+				duration: 1.5
+			})
+		} catch (err) {
+		} finally {
+			if (typeof callback === 'function') {
+				setTimeout(() => {
+					callback()
+				}, 1000)
+			}
+		}
+	},
+	// 更新汽车班次
+	async updateBusLineAsync({ commit }, payload, callback) {
+		try {
+			const data = await updateBusLine(payload)
+			commit(types.UPDATE_BUS_LINE, { data: data })
+			Message.success({
+				content: '更新汽车班次成功',
+				duration: 1.5
+			})
+		} catch (err) {
+			console.log(err)
+		} finally {
+			if (typeof callback === 'function') {
+				callback()
+			}
+		}
+	},
+	// 删除汽车班次
+	async deleteBusLineAsync({ commit }, payload, callback) {
+		try {
+			await deleteBusLine(payload.id)
+			commit(types.DELETE_BUS_LINE, { data: payload })
+			Message.success({
+				content: '删除汽车班次成功',
+				duration: 1.5
+			})
+		} catch (err) {
+			console.log(err)
+		} finally {
+			if (typeof callback === 'function') {
+				callback()
+			}
+		}
+	},
+	async setBusLinePageNum({ commit }, pageNum) {
+		await commit(types.SET_BUS_LINE_PAGE_NUM, { data: pageNum })
+	},
+	async setBusLinePageSize({ commit }, pageSize) {
+		await commit(types.SET_BUS_LINE_PAGE_SIZE, { data: pageSize })
 	}
 }
 
@@ -100,7 +171,11 @@ const state = {
 	posList: [],
 	posPageNum: 0,
 	posPageSize: 0,
-	posTotal: 0
+	posTotal: 0,
+	lineList: [],
+	linePageNum: 0,
+	linePageSize: 0,
+	lineTotal: 0
 }
 
 const mutations = {
@@ -132,6 +207,35 @@ const mutations = {
 	},
 	[types.SET_BUS_POS_PAGE_SIZE](state, payload) {
 		state.posPageSize = payload.data
+	},
+	[types.RETRIEVE_BUS_LINE_LIST](state, payload) {
+		state.lineList = [...payload.data.lineList]
+		state.linePageNum = payload.data.linePageNum
+		state.linePageSize = payload.data.linePageSize
+		state.lineTotal = payload.data.lineTotal
+	},
+	[types.CREATE_BUS_LINE](state, payload) {
+		let cpList = state.lineList
+		cpList.unshift(payload.data)
+		state.lineList = [...cpList]
+	},
+	[types.UPDATE_BUS_LINE](state, payload) {
+		let upList = state.lineList.map(item => {
+			return item.id === payload.data.id ? payload.data : item
+		})
+		state.lineList = [...upList]
+	},
+	[types.DELETE_BUS_LINE](state, payload) {
+		let dpList = state.lineList.filter(item => {
+			return item.id !== payload.data.id
+		})
+		state.lineList = [...dpList]
+	},
+	[types.SET_BUS_LINE_PAGE_NUM](state, payload) {
+		state.linePageNum = payload.data
+	},
+	[types.SET_BUS_LINE_PAGE_SIZE](state, payload) {
+		state.linePageSize = payload.data
 	}
 }
 

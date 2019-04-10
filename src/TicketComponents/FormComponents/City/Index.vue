@@ -23,6 +23,11 @@
             <Radio label="0">其他</Radio>
           </RadioGroup>
         </FormItem>
+        <FormItem label="城市标签" prop="city_type">
+          <Select v-model="city_form.city_type">
+            <Option v-for="(item, index) in typeList" :value="item.key" :key="index">{{ item.text }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="城市简介" prop="city_desc">
           <Input
             v-model="city_form.city_desc"
@@ -42,6 +47,7 @@
 
 <script>
 import { retrieveDepsList } from 'service/api'
+import { cityType } from 'js/app/global-config'
 
 export default {
   name: 'StaffForm',
@@ -50,10 +56,12 @@ export default {
       showDialog: false,
       title: '',
       width: 500,
+      typeList: [],
       city_form: {
         city_name: '',
         city_status: '',
-        city_desc: ''
+        city_desc: '',
+        city_type: ''
       },
       cityRuleValidate: {
         city_name: [{ required: true, message: '城市名称不能为空', tigger: 'blur' }],
@@ -67,6 +75,7 @@ export default {
             trigger: 'blur'
           }
         ],
+        city_type: [{ required: true, message: '需选择城市标签' }]
       }
     }
   },
@@ -147,6 +156,9 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    this.typeList = [...cityType]
   }
 }
 </script>

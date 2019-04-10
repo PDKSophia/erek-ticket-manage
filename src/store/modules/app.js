@@ -14,9 +14,10 @@ import {
 
 
 const types = {
+  SET_FETCH: 'SET_FETCH',
   SET_CITY_LIST: 'SET_CITY_LIST',
   SET_BUS_POS_LIST: 'SET_BUS_POS_LIST',
-  SET_FETCH: 'SET_FETCH'
+  ADD_CITY_ITEM: 'ADD_CITY_ITEM'
 }
 
 const payloads = {
@@ -25,6 +26,7 @@ const payloads = {
 }
 
 const actions = {
+  // 获取所需要的列表
   async retrieveAppList({ commit }) {
     try {
       const cityList = await retrieveCityList(payloads)
@@ -33,7 +35,12 @@ const actions = {
       commit(types.SET_BUS_POS_LIST, { data: busPosList })
       commit(types.SET_FETCH)
     } catch (err) {
-
+    }
+  },
+  async addAppCityItemAsync({ commit }, payload) {
+    try {
+      commit(types.ADD_CITY_ITEM, { data: payload })
+    } catch (err) {
     }
   }
 }
@@ -41,18 +48,23 @@ const actions = {
 const state = {
   isFetch: false,
   cityList: [],
-  posList: []
+  busPosList: []
 }
 
 const mutations = {
+  [types.SET_FETCH](state) {
+    state.isFetch = false // 置为true会存在一个新增城市而此cityList仍是之前值问题
+  },
   [types.SET_CITY_LIST](state, payload) {
     state.cityList = [...payload.data.list]
   },
   [types.SET_BUS_POS_LIST](state, payload) {
-    state.posList = [...payload.data.posList]
+    state.busPosList = [...payload.data.posList]
   },
-  [types.SET_FETCH](state) {
-    state.isFetch = true
+  [types.ADD_CITY_ITEM](state, payload) {
+    let citys = state.cityList
+    citys.push(payload.data)
+    state.cityList = [...citys]
   }
 }
 

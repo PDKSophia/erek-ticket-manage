@@ -4,7 +4,17 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     port: 2345,
-    host: 'localhost'
+    host: 'localhost',
+    proxy: {
+      '/chain': {
+        target: 'https://sm.ms/api/', //对应自己的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/chain': ''
+        }
+      }
+    }
   },
   baseUrl: './',
   configureWebpack: {

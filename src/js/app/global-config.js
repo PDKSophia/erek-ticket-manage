@@ -43,3 +43,25 @@ export const appLink = [
     target: 'https://github.com/PDKSophia/blog.io'
   }
 ]
+
+/**
+ * @城市状态
+ */
+export const cityType = [
+  {
+    key: 10,
+    text: '热门推荐'
+  },
+  {
+    key: 20,
+    text: '当季旅游地'
+  },
+  {
+    key: 30,
+    text: '旅游主题'
+  },
+  {
+    key: 100,
+    text: '其他'
+  }
+]

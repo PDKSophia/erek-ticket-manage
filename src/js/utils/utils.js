@@ -185,6 +185,17 @@ function filterArray(args, key, val) {
 	})
 }
 
+/**
+ * @处理iView时间格式带TZ情况
+ * @param {date} date
+ * @return {date}
+ */
+function processToDate(date) {
+	var newDate = new Date(date).toJSON()
+	var date = new Date(+new Date(newDate) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+	return date
+}
+
 export default {
 	loadingTips,
 	toastTips,
@@ -195,5 +206,6 @@ export default {
 	uniqueArray,
 	checkUrlQuery,
 	processInitailDialog,
-	filterArray
+	filterArray,
+	processToDate
 }

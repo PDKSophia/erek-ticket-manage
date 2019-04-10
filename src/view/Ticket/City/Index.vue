@@ -13,6 +13,15 @@
                 <Radio label="2">其他</Radio>
               </RadioGroup>
             </FormItem>
+            <FormItem label="城市标签" prop="city_type">
+              <Select v-model="city_form.city_type">
+                <Option
+                  v-for="(item, index) in typeList"
+                  :value="item.key"
+                  :key="index"
+                >{{ item.text }}</Option>
+              </Select>
+            </FormItem>
             <FormItem label="城市简介" prop="city_desc">
               <Input
                 v-model="city_form.city_desc"
@@ -45,17 +54,21 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+import { cityType } from 'js/app/global-config'
+
 export default {
   name: 'CityComponents',
   data() {
     return {
       file: null,
+      typeList: [],
       city_form: {
         city_name: '',
         city_desc: '',
         city_cover: '',
         city_status: '',
+        city_type: ''
       },
       ruleValidate: {
         city_name: [{ required: true, message: '城市名称不能为空', tigger: 'blur' }],
@@ -69,7 +82,8 @@ export default {
             trigger: 'blur'
           }
         ],
-        city_cover: [{ required: true, message: '封面URL不能为空', tigger: 'blur' }]
+        city_cover: [{ required: true, message: '封面URL不能为空', tigger: 'blur' }],
+        city_type: [{ required: true, message: '需选择城市标签' }]
       }
     };
   },
@@ -78,7 +92,6 @@ export default {
     async handleCoverUpload(file) {
       this.file = file
       this.city_form.city_cover = file.name
-
     },
     async handleSubmit(name) {
       this.$refs[name].validate(async valid => {
@@ -100,7 +113,8 @@ export default {
     }
   },
   mounted() {
-  }
+    this.typeList = [...cityType]
+  },
 };
 </script>
 

@@ -9,6 +9,10 @@
           :current="pagination.pageNum"
           :pageSize="pagination.pageSize"
           showSizer
+          transfer
+          :page-size-opts="[1, 2, 5, 20]"
+          @on-change="onHandlePageNum"
+          @on-page-size-change="onHandlePageSize"
         ></Page>
       </div>
     </div>
@@ -19,7 +23,7 @@
 
 import { mapState } from 'vuex'
 export default {
-  name: 'BusLineTable',
+  name: 'BusPositionTable',
   computed: mapState({
     isFetching: state => state.global.isFetching
   }),
@@ -39,13 +43,13 @@ export default {
     data: {
       type: Array,
       defualt: function () {
-        return [];
+        return []
       }
     },
     pagination: {
       type: Object,
       defualt: function () {
-        return [];
+        return []
       }
     }
   },
@@ -56,87 +60,99 @@ export default {
       }
     }
   },
+  methods: {
+    onHandlePageNum(current) {
+      this.$emit('onHandlePageNum', current)
+    },
+    onHandlePageSize(size) {
+      this.$emit('onHandlePageSize', size)
+    }
+  },
   data() {
     return {
-      initPageOption: [10, 20, 30, 50],
       columns: [
         {
-          title: '员工ID',
+          title: '班次ID',
           key: 'id',
           width: 80,
           align: 'center'
         },
         {
-          title: '员工名',
-          key: 'username',
+          title: '班次名称',
+          key: 'name',
+          width: 200,
+          align: 'center'
+        },
+        {
+          title: '价格',
+          key: 'price',
           width: 100,
           align: 'center'
         },
         {
-          title: '所属部门',
-          key: 'department',
+          title: '总票数',
+          key: 'count',
+          width: 100,
           align: 'center'
         },
         {
-          title: '所在职位',
-          key: 'type',
+          title: '已售出',
+          key: 'sell',
+          width: 100,
           align: 'center'
         },
         {
-          title: '员工状态',
-          key: 'status',
-          align: 'center',
-          filters: [
-            {
-              label: '在职',
-              value: '在职'
-            },
-            {
-              label: '离职',
-              value: '离职'
-            }
-          ],
-          filterMultiple: false,
-          filterMethod(value, row) {
-            return row.status.indexOf(value) > -1;
-          }
-        },
-        {
-          title: '联系方式',
-          key: 'phone',
+          title: '剩余票数',
+          key: 'surplus',
+          width: 100,
           align: 'center'
         },
         {
-          title: '操作时间',
-          key: 'time',
+          title: '起始站点',
+          key: 'fromPosName',
+          align: 'center'
+        },
+        {
+          title: '目的站点',
+          key: 'toPosName',
+          align: 'center'
+        },
+        {
+          title: '起始时间',
+          key: 'startTime',
+          align: 'center'
+        },
+        {
+          title: '到达时间',
+          key: 'arriveTime',
           align: 'center'
         },
         {
           title: '操作',
           align: 'center',
           key: 'action',
-          width: 150,
+          width: 80,
           render: (h, params) => {
             return h('div', [
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      var index = params.index;
-                      this.$emit('onHandleClickItem', index, 'view');
-                    }
-                  }
-                },
-                '查看'
-              ),
+              // h(
+              //   'Button',
+              //   {
+              //     props: {
+              //       type: 'primary',
+              //       size: 'small'
+              //     },
+              //     style: {
+              //       marginRight: '5px'
+              //     },
+              //     on: {
+              //       click: () => {
+              //         var index = params.index;
+              //         this.$emit('onHandleLineClick', index, 'update');
+              //       }
+              //     }
+              //   },
+              //   '编辑'
+              // ),
               h(
                 'Button',
                 {
@@ -150,7 +166,7 @@ export default {
                   on: {
                     click: () => {
                       var index = params.index;
-                      this.$emit('onHandleClickItem', index, 'delete');
+                      this.$emit('onHandleLineClick', index, 'delete');
                     }
                   }
                 },

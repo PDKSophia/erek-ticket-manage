@@ -13,7 +13,7 @@
           @onHandlePageSize="handlePositionChangeSize"
         />
         <bus-pos-form
-          @onCallbackForm="handleFetchForm"
+          @onCallbackForm="handleFetchPosForm"
           :visible="posDialog.visible"
           :formData="posDialog.formData"
           :formType="posDialog.formType"
@@ -22,14 +22,24 @@
         />
       </TabPane>
       <TabPane label="所有班次">
-        <!-- <line-table
+        <line-table
           :border="lineProps.border"
           :stripe="lineProps.stripe"
           :size="lineProps.size"
           :data="lineProps.data"
           :pagination="lineProps.pagination"
-          @onHandleClickItem="handleEmitTableValue"
-        />-->
+          @onHandleLineClick="handleLineClick"
+          @onHandlePageNum="handleLineChangeNum"
+          @onHandlePageSize="handleLineChangeSize"
+        />
+        <bus-line-form
+          @onCallbackForm="handleFetchLineForm"
+          :visible="lineDialog.visible"
+          :formData="lineDialog.formData"
+          :formType="lineDialog.formType"
+          :formTitle="lineDialog.formTitle"
+          :formWidth="lineDialog.formWidth"
+        />
       </TabPane>
       <delete-confirm
         @onHandleClickDelete="handleDelete"
@@ -44,6 +54,7 @@
 import PositionTable from 'tkcomponents/FrameComponents/List/Bus/Position.vue'
 import LineTable from 'tkcomponents/FrameComponents/List/Bus/Line.vue'
 import BusPosForm from 'tkcomponents/FormComponents/Bus/Position.vue'
+import BusLineForm from 'tkcomponents/FormComponents/Bus/Line.vue'
 import DeleteConfirm from 'tkcomponents/CommonComponents/DeleteConfirm/Index.vue'
 import { retrieveCityList } from 'service/api'
 import { mapState } from 'vuex'
@@ -54,13 +65,18 @@ export default {
     PositionTable,
     LineTable,
     BusPosForm,
+    BusLineForm,
     DeleteConfirm
   },
   computed: mapState({
     posList: state => state.bus.posList,
     posPageNum: state => state.bus.posPageNum,
     posPageSize: state => state.bus.posPageSize,
-    posTotal: state => state.bus.posTotal
+    posTotal: state => state.bus.posTotal,
+    lineList: state => state.bus.lineList,
+    linePageNum: state => state.bus.linePageNum,
+    linePageSize: state => state.bus.linePageSize,
+    lineTotal: state => state.bus.lineTotal
   }),
   data() {
     return {
@@ -85,9 +101,9 @@ export default {
         formWidth: 500
       },
       lineProps: {
-        border: true,
-        stripe: false,
-        size: 'large',
+        border: false,
+        stripe: true,
+        size: 'small',
         data: [],
         pagination: {
           hasPage: true,
@@ -95,6 +111,13 @@ export default {
           pageSize: 0,
           total: 0
         }
+      },
+      lineDialog: {
+        visible: false,
+        formData: null,
+        formType: 'create',
+        formTitle: '',
+        formWidth: 500
       },
       delDialog: {
         tabPane: 'position',
@@ -126,14 +149,14 @@ export default {
             formWidth: 480,
             formType: 'update',
             formData: formdata,
-            formTitle: '👉 编辑城市站点'
+            formTitle: '👉 编辑汽车站点'
           }
           break
         case 'delete':
           this.delDialog = {
             tabPane: 'position',
             visible: true,
-            deleteName: `城市站点 : ${formdata.bus_name}`,
+            deleteName: `汽车站点 : ${formdata.bus_name}`,
             formData: formdata
           }
           break
@@ -143,7 +166,11 @@ export default {
     },
     async handleDelete(type) {
       if (type) {
-        await this.$store.dispatch('deleteBusPosAsync', this.delDialog.formData)
+        if (this.delDialog.tabPane === 'position') {
+          await this.$store.dispatch('deleteBusPosAsync', this.delDialog.formData)
+        } else {
+          await this.$store.dispatch('deleteBusLineAsync', this.delDialog.formData)
+        }
         await this.upNextTick()
       }
       this.delDialog = {
@@ -153,7 +180,31 @@ export default {
         formData: null
       }
     },
-    async handleFetchForm(data, type) {
+    async handleLineClick(index, type) {
+      let formdata = JSON.parse(JSON.stringify(this.lineList[index]))
+      switch (type) {
+        case 'update':
+          this.lineDialog = {
+            visible: true,
+            formWidth: 480,
+            formType: 'update',
+            formData: formdata,
+            formTitle: '👉 编辑汽车班次信息'
+          }
+          break
+        case 'delete':
+          this.delDialog = {
+            tabPane: 'line',
+            visible: true,
+            deleteName: `班次名称 : ${formdata.name}`,
+            formData: formdata
+          }
+          break
+        default:
+          console.log('no action')
+      }
+    },
+    async handleFetchPosForm(data, type) {
       if (type === 'submit') {
         let citys = this.$utils.filterArray(this.cityList, 'id', data.cityId)
         let prefix = {
@@ -172,6 +223,15 @@ export default {
       let initailOptions = this.$utils.processInitailDialog()
       this.posDialog = { ...initailOptions }
     },
+    async handleFetchLineForm(data, type) {
+      if (type === 'submit') {
+        console.log(data)
+        await this.$store.dispatch('updateBusLineAsync', data)
+        await this.upNextTick()
+      }
+      let initailOptions = this.$utils.processInitailDialog()
+      this.lineDialog = { ...initailOptions }
+    },
     async handlePositionChangeNum(current) {
       this.$store.dispatch('setBusPosPageNum', current)
       await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
@@ -180,6 +240,16 @@ export default {
     async handlePositionChangeSize(size) {
       this.$store.dispatch('setBusPosPageSize', size)
       await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.upNextTick()
+    },
+    async handleLineChangeNum(current) {
+      this.$store.dispatch('setBusLinePageNum', current)
+      await this.$store.dispatch('retrieveBusLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
+      await this.upNextTick()
+    },
+    async handleLineChangeSize(size) {
+      this.$store.dispatch('setBusLinePageSize', size)
+      await this.$store.dispatch('retrieveBusLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
       await this.upNextTick()
     },
     upNextTick() {
@@ -200,12 +270,37 @@ export default {
         pageSize: this.posPageSize,
         total: this.posTotal
       }
+      // 将 prefix 解析
+      const lineList = this.lineList.map(item => {
+        let prefix = JSON.parse(item.prefix)
+        return {
+          ...item,
+          fromCityName: prefix.fromCityName,
+          toCityName: prefix.toCityName,
+          fromPosName: prefix.fromPosName,
+          toPosName: prefix.toPosName,
+          startTime: this.$utils.processToDate(item.startTime),
+          arriveTime: this.$utils.processToDate(item.arriveTime)
+        }
+      })
+      this.lineProps.data = [...lineList]
+      this.lineProps.pagination = {
+        hasPage: true,
+        pageNum: this.linePageNum,
+        pageSize: this.linePageSize,
+        total: this.lineTotal
+      }
     },
   },
   async mounted() {
+    // get bus-positions-list
     this.$store.dispatch('setBusPosPageNum', 1)
     this.$store.dispatch('setBusPosPageSize', 5)
     await this.$store.dispatch('retrieveBusPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+    // get bus-line-list
+    this.$store.dispatch('setBusLinePageNum', 1)
+    this.$store.dispatch('setBusLinePageSize', 5)
+    await this.$store.dispatch('retrieveBusLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
     await retrieveCityList({
       pageNum: 1,
       pageSize: 100

@@ -221,6 +221,57 @@ export function deleteBusPosition(posId) {
     }
   })
 }
+/**
+ * @desc: 分页获取汽车班次列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveBusLineList(params) {
+  return request({
+    url: `${baseUrl}/api/bus/line/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createBusLine(payload) {
+  return request({
+    url: `${baseUrl}/api/bus/line/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateBusLine(payload) {
+  return request({
+    url: `${baseUrl}/api/bus/line/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除汽车站点
+ * @param {Number} lineId
+ * @return {*}
+ */
+export function deleteBusLine(lineId) {
+  return request({
+    url: `${baseUrl}/api/bus/line/delete-id`,
+    method: 'DELETE',
+    params: {
+      lineId: lineId
+    }
+  })
+}
+
 
 export default {
   // 登陆模块
@@ -261,7 +312,7 @@ export default {
     })
   },
   /**
-   * @desc: 文件上传
+   * @desc: 文件上传 node stream
    * @param {Blob} files 文件
    * @return {*}
    */
@@ -276,6 +327,25 @@ export default {
       data: formdata,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+  },
+  /**
+  * @desc: 文件上传 图床
+  * @param {Blob} files 文件
+  * @return {*}
+  */
+  uploadChainFiles: files => {
+    let formdata = new FormData()
+    formdata.append('smfile', files)
+    formdata.append('file_id', 0)
+
+    return request({
+      url: `/chain/upload`,
+      method: 'POST',
+      data: formdata,
+      headers: {
+        'Content-Type': 'multipart/form-data'
       }
     })
   }
