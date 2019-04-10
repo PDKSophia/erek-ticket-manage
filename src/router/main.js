@@ -32,19 +32,19 @@ import VueErekException500 from '@/view/Manage/VueErekException/500'
 // 飞机管理
 import PlaneRouter from '@/view/Ticket/Plane/Router'
 import PlanePosition from '@/view/Ticket/Plane/Position'
-import PlaneTime from '@/view/Ticket/Plane/Time'
+import PlaneLine from '@/view/Ticket/Plane/Line'
 import PlaneListComponents from '@/view/Ticket/Plane/List'
 
 // 火车管理
 import TrainRouter from '@/view/Ticket/Train/Router'
 import TrainPosition from '@/view/Ticket/Train/Position'
-import TrainTime from '@/view/Ticket/Train/Time'
+import TrainLine from '@/view/Ticket/Train/Line'
 import TrainListComponents from '@/view/Ticket/Train/List'
 
 // 汽车管理
 import BusRouter from '@/view/Ticket/Bus/Router'
 import BusPosition from '@/view/Ticket/Bus/Position'
-import BusTime from '@/view/Ticket/Bus/Time'
+import BusLine from '@/view/Ticket/Bus/Line'
 import BusListComponents from '@/view/Ticket/Bus/List'
 
 // 城市管理
@@ -226,8 +226,8 @@ const router = new Router({
             },
             {
               path: 'add-plane-time',
-              name: 'PlaneTime',
-              component: PlaneTime,
+              name: 'PlaneLine',
+              component: PlaneLine,
               meta: {
                 keepAlive: false
               }
@@ -259,8 +259,8 @@ const router = new Router({
             },
             {
               path: 'add-train-time',
-              name: 'TrainTime',
-              component: TrainTime,
+              name: 'TrainLine',
+              component: TrainLine,
               meta: {
                 keepAlive: false
               }
@@ -292,8 +292,8 @@ const router = new Router({
             },
             {
               path: 'add-bus-time',
-              name: 'BusTime',
-              component: BusTime,
+              name: 'BusLine',
+              component: BusLine,
               meta: {
                 keepAlive: false
               }

@@ -1,7 +1,7 @@
 <template>
   <div class="vue-erek-person-setting-container">
     <Tabs size="small">
-      <TabPane label="所有车站">
+      <TabPane label="所有大巴站点">
         <position-table
           :border="posProps.border"
           :stripe="posProps.stripe"
@@ -21,7 +21,7 @@
           :formWidth="posDialog.formWidth"
         />
       </TabPane>
-      <TabPane label="所有班次">
+      <TabPane label="所有大巴班次">
         <line-table
           :border="lineProps.border"
           :stripe="lineProps.stripe"

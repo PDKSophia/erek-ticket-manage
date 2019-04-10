@@ -10,6 +10,7 @@ import department from './modules/department'
 import staff from './modules/staff'
 import city from './modules/city'
 import bus from './modules/bus'
+import train from './modules/train'
 import app from './modules/app'
 
 Vue.use(Vuex)
@@ -24,6 +25,7 @@ export default new Vuex.Store({
 		staff,
 		city,
 		bus,
+		train,
 		app
 	},
 	plugins: [createLogger()]

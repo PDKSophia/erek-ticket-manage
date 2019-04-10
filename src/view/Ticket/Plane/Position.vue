@@ -65,7 +65,7 @@ export default {
         if (valid) {
           this.$utils.toastTips('success', '修改成功!', 1.5);
         } else {
-          this.$utils.toastTips('error', 'Fail!', 1.5);
+          this.$utils.toastTips('error', '请确认是否已完成表单的填写!', 1.5);
         }
       });
     },

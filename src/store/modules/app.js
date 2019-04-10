@@ -9,7 +9,8 @@
  */
 import {
   retrieveCityList,
-  retrieveBusPostionList
+  retrieveBusPostionList,
+  retrieveTrainPostionList,
 } from '../../service/api'
 
 
@@ -31,8 +32,10 @@ const actions = {
     try {
       const cityList = await retrieveCityList(payloads)
       const busPosList = await retrieveBusPostionList(payloads)
+      const trainPosList = await retrieveTrainPostionList(payloads)
       commit(types.SET_CITY_LIST, { data: cityList })
       commit(types.SET_BUS_POS_LIST, { data: busPosList })
+      commit(types.SET_TRAIN_POS_LIST, { data: trainPosList })
       commit(types.SET_FETCH)
     } catch (err) {
     }
@@ -48,7 +51,8 @@ const actions = {
 const state = {
   isFetch: false,
   cityList: [],
-  busPosList: []
+  busPosList: [],
+  trainPosList: []
 }
 
 const mutations = {
@@ -60,6 +64,9 @@ const mutations = {
   },
   [types.SET_BUS_POS_LIST](state, payload) {
     state.busPosList = [...payload.data.posList]
+  },
+  [types.SET_TRAIN_POS_LIST](state, payload) {
+    state.trainPosList = [...payload.data.posList]
   },
   [types.ADD_CITY_ITEM](state, payload) {
     let citys = state.cityList

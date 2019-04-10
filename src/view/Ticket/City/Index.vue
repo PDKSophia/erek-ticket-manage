@@ -104,7 +104,7 @@ export default {
             this.handleReset('city_form')
           }, 2000)
         } else {
-          this.$utils.toastTips('error', 'Fail!', 1.5);
+          this.$utils.toastTips('error', '请确认是否已完成表单的填写!', 1.5);
         }
       });
     },

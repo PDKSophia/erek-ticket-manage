@@ -176,6 +176,108 @@ export function deleteCity(cityId) {
  * @param {Object} params 分页
  * @return {*}
  */
+export function retrieveTrainPostionList(params) {
+  return request({
+    url: `${baseUrl}/api/train/position/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createTrainPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/train/position/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateTrainPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/train/position/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除汽车站点
+ * @param {Number} posId
+ * @return {*}
+ */
+export function deleteTrainPosition(posId) {
+  return request({
+    url: `${baseUrl}/api/train/position/delete-id`,
+    method: 'DELETE',
+    params: {
+      posId: posId
+    }
+  })
+}
+/**
+ * @desc: 分页获取汽车班次列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveTrainLineList(params) {
+  return request({
+    url: `${baseUrl}/api/train/line/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createTrainLine(payload) {
+  return request({
+    url: `${baseUrl}/api/train/line/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑汽车站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateTrainLine(payload) {
+  return request({
+    url: `${baseUrl}/api/train/line/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除汽车站点
+ * @param {Number} lineId
+ * @return {*}
+ */
+export function deleteTrainLine(lineId) {
+  return request({
+    url: `${baseUrl}/api/train/line/delete-id`,
+    method: 'DELETE',
+    params: {
+      lineId: lineId
+    }
+  })
+}
+
+// 火车模块
+/**
+ * @desc: 分页获取火车站点列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
 export function retrieveBusPostionList(params) {
   return request({
     url: `${baseUrl}/api/bus/position/get-all`,
@@ -184,7 +286,7 @@ export function retrieveBusPostionList(params) {
   })
 }
 /**
- * @desc: 新增汽车站点
+ * @desc: 新增火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -196,7 +298,7 @@ export function createBusPosition(payload) {
   })
 }
 /**
- * @desc: 编辑汽车站点
+ * @desc: 编辑火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -208,7 +310,7 @@ export function updateBusPosition(payload) {
   })
 }
 /**
- * @desc: 删除汽车站点
+ * @desc: 删除火车站点
  * @param {Number} posId
  * @return {*}
  */
@@ -222,7 +324,7 @@ export function deleteBusPosition(posId) {
   })
 }
 /**
- * @desc: 分页获取汽车班次列表
+ * @desc: 分页获取火车班次列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -234,7 +336,7 @@ export function retrieveBusLineList(params) {
   })
 }
 /**
- * @desc: 新增汽车站点
+ * @desc: 新增火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -246,7 +348,7 @@ export function createBusLine(payload) {
   })
 }
 /**
- * @desc: 编辑汽车站点
+ * @desc: 编辑火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -258,7 +360,7 @@ export function updateBusLine(payload) {
   })
 }
 /**
- * @desc: 删除汽车站点
+ * @desc: 删除火车站点
  * @param {Number} lineId
  * @return {*}
  */
