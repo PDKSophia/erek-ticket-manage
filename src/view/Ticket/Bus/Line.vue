@@ -130,7 +130,7 @@ export default {
             fromCityName: fromCityName[0].city_name,
             toCityName: toCityName[0].city_name,
             fromPosName: fromPosName[0].bus_name,
-            toPosName: toPosName[0].bus_name,
+            toPosName: toPosName[0].bus_name
           }
           let options = {
             ...this.busLineForm,

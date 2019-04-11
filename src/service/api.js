@@ -170,9 +170,9 @@ export function deleteCity(cityId) {
   })
 }
 
-// 汽车模块
+// 火车模块
 /**
- * @desc: 分页获取汽车站点列表
+ * @desc: 分页获取火车站点列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -184,7 +184,7 @@ export function retrieveTrainPostionList(params) {
   })
 }
 /**
- * @desc: 新增汽车站点
+ * @desc: 新增火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -196,7 +196,7 @@ export function createTrainPosition(payload) {
   })
 }
 /**
- * @desc: 编辑汽车站点
+ * @desc: 编辑火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -208,7 +208,7 @@ export function updateTrainPosition(payload) {
   })
 }
 /**
- * @desc: 删除汽车站点
+ * @desc: 删除火车站点
  * @param {Number} posId
  * @return {*}
  */
@@ -222,7 +222,7 @@ export function deleteTrainPosition(posId) {
   })
 }
 /**
- * @desc: 分页获取汽车班次列表
+ * @desc: 分页获取火车班次列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -234,7 +234,7 @@ export function retrieveTrainLineList(params) {
   })
 }
 /**
- * @desc: 新增汽车站点
+ * @desc: 新增火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -246,7 +246,7 @@ export function createTrainLine(payload) {
   })
 }
 /**
- * @desc: 编辑汽车站点
+ * @desc: 编辑火车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -258,7 +258,7 @@ export function updateTrainLine(payload) {
   })
 }
 /**
- * @desc: 删除汽车站点
+ * @desc: 删除火车站点
  * @param {Number} lineId
  * @return {*}
  */
@@ -272,9 +272,9 @@ export function deleteTrainLine(lineId) {
   })
 }
 
-// 火车模块
+// 汽车模块
 /**
- * @desc: 分页获取火车站点列表
+ * @desc: 分页获取汽车站点列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -286,7 +286,7 @@ export function retrieveBusPostionList(params) {
   })
 }
 /**
- * @desc: 新增火车站点
+ * @desc: 新增汽车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -298,7 +298,7 @@ export function createBusPosition(payload) {
   })
 }
 /**
- * @desc: 编辑火车站点
+ * @desc: 编辑汽车站点
  * @param {Object} payload
  * @return {*}
  */
@@ -310,7 +310,7 @@ export function updateBusPosition(payload) {
   })
 }
 /**
- * @desc: 删除火车站点
+ * @desc: 删除汽车站点
  * @param {Number} posId
  * @return {*}
  */
@@ -324,7 +324,7 @@ export function deleteBusPosition(posId) {
   })
 }
 /**
- * @desc: 分页获取火车班次列表
+ * @desc: 分页获取汽车班次列表
  * @param {Object} params 分页
  * @return {*}
  */
@@ -336,7 +336,7 @@ export function retrieveBusLineList(params) {
   })
 }
 /**
- * @desc: 新增火车站点
+ * @desc: 新增汽车班次
  * @param {Object} payload
  * @return {*}
  */
@@ -348,7 +348,7 @@ export function createBusLine(payload) {
   })
 }
 /**
- * @desc: 编辑火车站点
+ * @desc: 编辑汽车班次
  * @param {Object} payload
  * @return {*}
  */
@@ -360,13 +360,115 @@ export function updateBusLine(payload) {
   })
 }
 /**
- * @desc: 删除火车站点
+ * @desc: 删除汽车班次
  * @param {Number} lineId
  * @return {*}
  */
 export function deleteBusLine(lineId) {
   return request({
     url: `${baseUrl}/api/bus/line/delete-id`,
+    method: 'DELETE',
+    params: {
+      lineId: lineId
+    }
+  })
+}
+
+// 飞机模块
+/**
+ * @desc: 分页获取飞机班次列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveAirPostionList(params) {
+  return request({
+    url: `${baseUrl}/api/plane/position/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增飞机站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createAirPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/plane/position/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑飞机站点
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateAirPosition(payload) {
+  return request({
+    url: `${baseUrl}/api/plane/position/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除飞机站点
+ * @param {Number} posId
+ * @return {*}
+ */
+export function deleteAirPosition(posId) {
+  return request({
+    url: `${baseUrl}/api/plane/position/delete-id`,
+    method: 'DELETE',
+    params: {
+      posId: posId
+    }
+  })
+}
+/**
+ * @desc: 分页获取飞机航班列表
+ * @param {Object} params 分页
+ * @return {*}
+ */
+export function retrieveAirLineList(params) {
+  return request({
+    url: `${baseUrl}/api/plane/line/get-all`,
+    method: 'GET',
+    params: params
+  })
+}
+/**
+ * @desc: 新增飞机航班
+ * @param {Object} payload
+ * @return {*}
+ */
+export function createAirLine(payload) {
+  return request({
+    url: `${baseUrl}/api/plane/line/add`,
+    method: 'POST',
+    data: payload
+  })
+}
+/**
+ * @desc: 编辑飞机航班
+ * @param {Object} payload
+ * @return {*}
+ */
+export function updateAirLine(payload) {
+  return request({
+    url: `${baseUrl}/api/plane/line/update`,
+    method: 'PUT',
+    data: payload
+  })
+}
+/**
+ * @desc: 删除飞机航班
+ * @param {Number} lineId
+ * @return {*}
+ */
+export function deleteAirLine(lineId) {
+  return request({
+    url: `${baseUrl}/api/plane/line/delete-id`,
     method: 'DELETE',
     params: {
       lineId: lineId

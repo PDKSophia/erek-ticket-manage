@@ -65,3 +65,79 @@ export const cityType = [
     text: '其他'
   }
 ]
+
+/**
+ * @航空公司
+ */
+export const airCompany = [
+  {
+    id: 100,
+    key: 'CA',
+    text: '中国国际航空'
+  },
+  {
+    id: 101,
+    key: 'CZ',
+    text: '中国南方航空'
+  },
+  {
+    id: 102,
+    key: 'MU',
+    text: '中国东方航空'
+  },
+  {
+    id: 103,
+    key: 'HU',
+    text: '海南航空'
+  },
+  {
+    id: 104,
+    key: 'SC',
+    text: '山东航空'
+  },
+  {
+    id: 105,
+    key: 'ZH',
+    text: '深圳航空'
+  },
+  {
+    id: 106,
+    key: '3U',
+    text: '四川航空'
+  },
+  {
+    id: 107,
+    key: 'MF',
+    text: '厦门航空'
+  },
+  {
+    id: 108,
+    key: 'FM',
+    text: '上海航空'
+  },
+  {
+    id: 109,
+    key: 'KN',
+    text: '联合航空'
+  },
+  {
+    id: 110,
+    key: 'BK',
+    text: '奥凯航空'
+  },
+  {
+    id: 111,
+    key: '吉祥',
+    text: '吉祥航空'
+  },
+  {
+    id: 112,
+    key: '9C',
+    text: '春秋航空'
+  },
+  {
+    id: 113,
+    key: 'CBJ',
+    text: '首都航空'
+  }
+]

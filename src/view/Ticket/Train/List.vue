@@ -42,8 +42,9 @@
         />
         <Modal v-model="showView.visible" title="查看票价" @on-ok="toggleShowView">
           <p
+            class="text-label"
             v-for="(item, index) in showView.formData.ticket"
-          >坐席: {{ item.text }}, 价格: {{ item.price }}, 总票数: {{ item.count }}, 剩余票数: {{ item.surplus }}, 已卖出: {{ item.sell }}</p>
+          >坐席: {{ item.text }} ; 价格: {{ item.price }} ; 总票数: {{ item.count }} ; 剩余票数: {{ item.surplus }} ; 已卖出: {{ item.sell }}</p>
         </Modal>
       </TabPane>
       <delete-confirm
@@ -254,12 +255,12 @@ export default {
     },
     async handlePositionChangeNum(current) {
       this.$store.dispatch('setTrainPosPageNum', current)
-      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.$store.dispatch('retrieveTrainPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
       await this.upNextTick()
     },
     async handlePositionChangeSize(size) {
       this.$store.dispatch('setTrainPosPageSize', size)
-      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.$store.dispatch('retrieveTrainPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
       await this.upNextTick()
     },
     async handleLineChangeNum(current) {
@@ -295,10 +296,8 @@ export default {
         let prefix = JSON.parse(item.prefix)
         return {
           ...item,
-          fromCityName: prefix.fromCityName,
-          toCityName: prefix.toCityName,
-          fromPosName: prefix.fromPosName,
-          toPosName: prefix.toPosName,
+          fromName: `${prefix.fromCityName}-${prefix.fromPosName}`,
+          toName: `${prefix.toCityName}-${prefix.toPosName}`,
           startTime: this.$utils.processToDate(item.startTime),
           arriveTime: this.$utils.processToDate(item.arriveTime)
         }
@@ -338,5 +337,9 @@ export default {
   background-color: #fff;
   height: 100%;
   width: 100%;
+}
+.text-label {
+  line-height: 32px;
+  font-size: 14px;
 }
 </style>

@@ -5,12 +5,13 @@
  * @author PDK
  *
  * Created at     : 2019-04-09
- * Last modified  : 2019-04-09
+ * Last modified  : 2019-04-11
  */
 import {
   retrieveCityList,
   retrieveBusPostionList,
   retrieveTrainPostionList,
+  retrieveAirPostionList,
 } from '../../service/api'
 
 
@@ -18,6 +19,8 @@ const types = {
   SET_FETCH: 'SET_FETCH',
   SET_CITY_LIST: 'SET_CITY_LIST',
   SET_BUS_POS_LIST: 'SET_BUS_POS_LIST',
+  SET_TRAIN_POS_LIST: 'SET_TRAIN_POS_LIST',
+  SET_AIR_POS_LIST: 'SET_AIR_POS_LIST',
   ADD_CITY_ITEM: 'ADD_CITY_ITEM'
 }
 
@@ -33,9 +36,11 @@ const actions = {
       const cityList = await retrieveCityList(payloads)
       const busPosList = await retrieveBusPostionList(payloads)
       const trainPosList = await retrieveTrainPostionList(payloads)
+      const airPosList = await retrieveTrainPostionList(payloads)
       commit(types.SET_CITY_LIST, { data: cityList })
       commit(types.SET_BUS_POS_LIST, { data: busPosList })
       commit(types.SET_TRAIN_POS_LIST, { data: trainPosList })
+      commit(types.SET_AIR_POS_LIST, { data: airPosList })
       commit(types.SET_FETCH)
     } catch (err) {
     }
@@ -52,7 +57,8 @@ const state = {
   isFetch: false,
   cityList: [],
   busPosList: [],
-  trainPosList: []
+  trainPosList: [],
+  airPosList: []
 }
 
 const mutations = {
@@ -67,6 +73,9 @@ const mutations = {
   },
   [types.SET_TRAIN_POS_LIST](state, payload) {
     state.trainPosList = [...payload.data.posList]
+  },
+  [types.SET_AIR_POS_LIST](state, payload) {
+    state.airPosList = [...payload.data.posList]
   },
   [types.ADD_CITY_ITEM](state, payload) {
     let citys = state.cityList

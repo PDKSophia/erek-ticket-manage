@@ -11,6 +11,7 @@ import staff from './modules/staff'
 import city from './modules/city'
 import bus from './modules/bus'
 import train from './modules/train'
+import air from './modules/air'
 import app from './modules/app'
 
 Vue.use(Vuex)
@@ -26,6 +27,7 @@ export default new Vuex.Store({
 		city,
 		bus,
 		train,
+		air,
 		app
 	},
 	plugins: [createLogger()]

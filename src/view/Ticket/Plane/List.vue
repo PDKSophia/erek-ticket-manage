@@ -1,42 +1,94 @@
 <template>
   <div class="vue-erek-person-setting-container">
     <Tabs size="small">
-      <TabPane label="所有车站">
-        <erek-table-list
-          :border="tableConfig.border"
-          :stripe="tableConfig.stripe"
-          :size="tableConfig.size"
-          :data="tableConfig.data"
-          :pagination="tableConfig.pagination"
-          @onHandleClickItem="handleEmitTableValue"
+      <TabPane label="所有机场">
+        <position-table
+          :border="posProps.border"
+          :stripe="posProps.stripe"
+          :size="posProps.size"
+          :data="posProps.data"
+          :pagination="posProps.pagination"
+          @onHandlePosClick="handlePosClick"
+          @onHandlePageNum="handlePositionChangeNum"
+          @onHandlePageSize="handlePositionChangeSize"
+        />
+        <air-pos-form
+          @onCallbackForm="handleFetchPosForm"
+          :visible="posDialog.visible"
+          :formData="posDialog.formData"
+          :formType="posDialog.formType"
+          :formTitle="posDialog.formTitle"
+          :formWidth="posDialog.formWidth"
         />
       </TabPane>
-      <TabPane label="所有班次">
-        <erek-table-list
-          :border="tableConfig.border"
-          :stripe="tableConfig.stripe"
-          :size="tableConfig.size"
-          :data="tableConfig.data"
-          :pagination="tableConfig.pagination"
-          @onHandleClickItem="handleEmitTableValue"
+      <TabPane label="所有航班班次">
+        <line-table
+          :border="lineProps.border"
+          :stripe="lineProps.stripe"
+          :size="lineProps.size"
+          :data="lineProps.data"
+          :pagination="lineProps.pagination"
+          @onHandleLineClick="handleLineClick"
+          @onHandlePageNum="handleLineChangeNum"
+          @onHandlePageSize="handleLineChangeSize"
         />
+        <air-line-form
+          @onCallbackForm="handleFetchLineForm"
+          :visible="lineDialog.visible"
+          :formData="lineDialog.formData"
+          :formType="lineDialog.formType"
+          :formTitle="lineDialog.formTitle"
+          :formWidth="lineDialog.formWidth"
+        />
+        <Modal v-model="showView.visible" title="查看票价" @on-ok="toggleShowView">
+          <p
+            class="text-label"
+            v-for="(item, index) in showView.formData.ticket"
+          >坐席: {{ item.text }} ; 价格: {{ item.price }} ; 总票数: {{ item.count }} ; 剩余票数: {{ item.surplus }} ; 已卖出: {{ item.sell }}</p>
+        </Modal>
       </TabPane>
+      <delete-confirm
+        @onHandleClickDelete="handleDelete"
+        :visible="delDialog.visible"
+        :deleteName="delDialog.deleteName"
+      />
     </Tabs>
   </div>
 </template>
 
 <script>
-import ErekTableList from 'components/FrameComponents/List/Table.vue';
+import PositionTable from 'tkcomponents/FrameComponents/List/Air/Position.vue'
+import LineTable from 'tkcomponents/FrameComponents/List/Air/Line.vue'
+import AirPosForm from 'tkcomponents/FormComponents/Air/Position.vue'
+import AirLineForm from 'tkcomponents/FormComponents/Air/Line.vue'
+import DeleteConfirm from 'tkcomponents/CommonComponents/DeleteConfirm/Index.vue'
+import { retrieveCityList } from 'service/api'
+import { mapState } from 'vuex'
 
 export default {
-  name: 'PlaneList',
+  name: 'AirList',
   components: {
-    ErekTableList
+    PositionTable,
+    LineTable,
+    AirPosForm,
+    AirLineForm,
+    DeleteConfirm
   },
+  computed: mapState({
+    posList: state => state.air.posList,
+    posPageNum: state => state.air.posPageNum,
+    posPageSize: state => state.air.posPageSize,
+    posTotal: state => state.air.posTotal,
+    lineList: state => state.air.lineList,
+    linePageNum: state => state.air.linePageNum,
+    linePageSize: state => state.air.linePageSize,
+    lineTotal: state => state.air.lineTotal
+  }),
   data() {
     return {
-      tableConfig: {
-        border: false,
+      cityList: [],
+      posProps: {
+        border: true,
         stripe: false,
         size: 'large',
         data: [],
@@ -46,32 +98,232 @@ export default {
           pageSize: 0,
           total: 0
         }
+      },
+      posDialog: {
+        visible: false,
+        formData: null,
+        formType: 'create',
+        formTitle: '',
+        formWidth: 500
+      },
+      lineProps: {
+        border: false,
+        stripe: true,
+        size: 'small',
+        data: [],
+        pagination: {
+          hasPage: true,
+          pageNum: 0,
+          pageSize: 0,
+          total: 0
+        }
+      },
+      lineDialog: {
+        visible: false,
+        formData: null,
+        formType: 'create',
+        formTitle: '',
+        formWidth: 500
+      },
+      delDialog: {
+        tabPane: 'position',
+        visible: false,
+        deleteName: '',
+        formData: null
+      },
+      showView: {
+        visible: false,
+        formData: {}
       }
     };
   },
   methods: {
-    handleEmitTableValue(value, type) {
-      this.$utils.toastTips(
-        'info',
-        `你当前点击 : ${type}, 下标索引为 : ${value}`,
-        1
-      );
-    }
-  },
-  mounted() {
-    this.$api.list.fetchRequestTableApi().then(res => {
-      this.tableConfig.data = res.list;
-      this.tableConfig.pagination = {
+    async handlePosClick(index, type) {
+      let formdata = JSON.parse(JSON.stringify(this.posList[index]))
+      switch (type) {
+        case 'view':
+          console.log(data)
+          break
+        case 'update':
+          let prefix = JSON.parse(formdata.prefix)
+          try {
+            Object.keys(prefix).map(key => {
+              formdata[key] = prefix[key]
+            })
+          } catch (err) {
+            console.log('err')
+          }
+          delete formdata.prefix
+          this.posDialog = {
+            visible: true,
+            formWidth: 480,
+            formType: 'update',
+            formData: formdata,
+            formTitle: '👉 编辑飞机站点'
+          }
+          break
+        case 'delete':
+          this.delDialog = {
+            tabPane: 'position',
+            visible: true,
+            deleteName: `飞机站点 : ${formdata.air_name}`,
+            formData: formdata
+          }
+          break
+        default:
+          console.log('no action')
+      }
+    },
+    async handleDelete(type) {
+      if (type) {
+        if (this.delDialog.tabPane === 'position') {
+          await this.$store.dispatch('deleteAirPosAsync', this.delDialog.formData)
+        } else {
+          await this.$store.dispatch('deleteAirLineAsync', this.delDialog.formData)
+        }
+        await this.upNextTick()
+      }
+      this.delDialog = {
+        tabPane: 'position',
+        visible: false,
+        deleteName: '',
+        formData: null
+      }
+    },
+    async handleLineClick(index, type) {
+      let formdata = JSON.parse(JSON.stringify(this.lineList[index]))
+      switch (type) {
+        case 'view':
+          // 将 prefix 解析
+          formdata.ticket = JSON.parse(formdata.record)
+          this.showView = {
+            visible: true,
+            formData: formdata
+          }
+          break
+        case 'update':
+          this.lineDialog = {
+            visible: true,
+            formWidth: 480,
+            formType: 'update',
+            formData: formdata,
+            formTitle: '👉 编辑飞机班次信息'
+          }
+          break
+        case 'delete':
+          this.delDialog = {
+            tabPane: 'line',
+            visible: true,
+            deleteName: `班次名称 : ${formdata.name}`,
+            formData: formdata
+          }
+          break
+        default:
+          console.log('no action')
+      }
+    },
+    async handleFetchPosForm(data, type) {
+      if (type === 'submit') {
+        let citys = this.$utils.filterArray(this.cityList, 'id', data.cityId)
+        let prefix = {
+          desc: data.desc,
+          cityName: citys[0].city_name
+        }
+        let options = {
+          id: data.id,
+          air_name: data.air_name,
+          cityId: data.cityId,
+          prefix: JSON.stringify(prefix)
+        }
+        await this.$store.dispatch('updateAirPosAsync', options)
+        await this.upNextTick()
+      }
+      let initailOptions = this.$utils.processInitailDialog()
+      this.posDialog = { ...initailOptions }
+    },
+    async handleFetchLineForm(data, type) {
+      if (type === 'submit') {
+        console.log(data)
+        await this.$store.dispatch('updateAirLineAsync', data)
+        await this.upNextTick()
+      }
+      let initailOptions = this.$utils.processInitailDialog()
+      this.lineDialog = { ...initailOptions }
+    },
+    async handlePositionChangeNum(current) {
+      this.$store.dispatch('setAirPosPageNum', current)
+      await this.$store.dispatch('retrieveAirPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.upNextTick()
+    },
+    async handlePositionChangeSize(size) {
+      this.$store.dispatch('setAirPosPageSize', size)
+      await this.$store.dispatch('retrieveAirPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.upNextTick()
+    },
+    async handleLineChangeNum(current) {
+      this.$store.dispatch('setAirLinePageNum', current)
+      await this.$store.dispatch('retrieveAirLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
+      await this.upNextTick()
+    },
+    async handleLineChangeSize(size) {
+      this.$store.dispatch('setAirLinePageSize', size)
+      await this.$store.dispatch('retrieveAirLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
+      await this.upNextTick()
+    },
+    upNextTick() {
+      // 将 prefix 的解析
+      const list = this.posList.map(item => {
+        let prefix = JSON.parse(item.prefix)
+        return {
+          id: item.id,
+          air_name: item.air_name,
+          city_name: prefix.cityName,
+          desc: prefix.desc
+        }
+      })
+      this.posProps.data = [...list]
+      this.posProps.pagination = {
         hasPage: true,
-        pageNum: res.current,
-        pageSize: res.size,
-        total: res.total
-      };
-      this.retrieveTableList(res);
-      setTimeout(() => {
-        this.stopFetch();
-      }, 1000);
-    });
+        pageNum: this.posPageNum,
+        pageSize: this.posPageSize,
+        total: this.posTotal
+      }
+      // 将 prefix 解析
+      const lineList = this.lineList.map(item => {
+        let prefix = JSON.parse(item.prefix)
+        return {
+          ...item,
+          fromName: `${prefix.fromCityName}-${prefix.fromPosName}`,
+          toName: `${prefix.toCityName}-${prefix.toPosName}`,
+          startTime: this.$utils.processToDate(item.startTime),
+          arriveTime: this.$utils.processToDate(item.arriveTime)
+        }
+      })
+      this.lineProps.data = [...lineList]
+      this.lineProps.pagination = {
+        hasPage: true,
+        pageNum: this.linePageNum,
+        pageSize: this.linePageSize,
+        total: this.lineTotal
+      }
+    },
+  },
+  async mounted() {
+    // get Air-positions-list
+    this.$store.dispatch('setAirPosPageNum', 1)
+    this.$store.dispatch('setAirPosPageSize', 5)
+    await this.$store.dispatch('retrieveAirPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+    // get Air-line-list
+    this.$store.dispatch('setAirLinePageNum', 1)
+    this.$store.dispatch('setAirLinePageSize', 5)
+    await this.$store.dispatch('retrieveAirLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
+    await retrieveCityList({
+      pageNum: 1,
+      pageSize: 100
+    }).then(res => {
+      this.cityList = [...res.list]
+    })
+    await this.upNextTick()
   }
 };
 </script>
@@ -82,5 +334,9 @@ export default {
   background-color: #fff;
   height: 100%;
   width: 100%;
+}
+.text-label {
+  line-height: 32px;
+  font-size: 14px;
 }
 </style>

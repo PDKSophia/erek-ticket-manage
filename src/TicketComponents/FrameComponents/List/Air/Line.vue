@@ -23,7 +23,7 @@
 
 import { mapState } from 'vuex'
 export default {
-  name: 'BusPositionTable',
+  name: 'AirLineTable',
   computed: mapState({
     isFetching: state => state.global.isFetching
   }),
@@ -78,47 +78,28 @@ export default {
           align: 'center'
         },
         {
-          title: '班次名称',
+          title: '航班名称',
           key: 'name',
           width: 200,
           align: 'center'
         },
         {
-          title: '价格',
-          key: 'price',
-          width: 100,
+          title: '航空公司',
+          key: 'air_company',
           align: 'center'
         },
         {
-          title: '总票数',
-          key: 'count',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '已售出',
-          key: 'sell',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '剩余票数',
-          key: 'surplus',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '起始站点',
+          title: '起始目的',
           key: 'fromName',
           align: 'center'
         },
         {
-          title: '目的站点',
+          title: '抵达目的',
           key: 'toName',
           align: 'center'
         },
         {
-          title: '起始时间',
+          title: '起飞时间',
           key: 'startTime',
           align: 'center'
         },
@@ -128,31 +109,40 @@ export default {
           align: 'center'
         },
         {
+          title: '票价信息',
+          align: 'center',
+          key: 'action',
+          render: (h, params) => {
+            return h('div', [
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      var index = params.index;
+                      this.$emit('onHandleLineClick', index, 'view');
+                    }
+                  }
+                },
+                '查看'
+              )
+            ])
+          }
+        },
+        {
           title: '操作',
           align: 'center',
           key: 'action',
           width: 80,
           render: (h, params) => {
             return h('div', [
-              // h(
-              //   'Button',
-              //   {
-              //     props: {
-              //       type: 'primary',
-              //       size: 'small'
-              //     },
-              //     style: {
-              //       marginRight: '5px'
-              //     },
-              //     on: {
-              //       click: () => {
-              //         var index = params.index;
-              //         this.$emit('onHandleLineClick', index, 'update');
-              //       }
-              //     }
-              //   },
-              //   '编辑'
-              // ),
               h(
                 'Button',
                 {

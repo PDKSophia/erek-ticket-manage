@@ -56,7 +56,7 @@
               <DatePicker
                 type="datetime"
                 format="yyyy-MM-dd HH:mm:ss"
-                placeholder="请选择发车时间"
+                placeholder="请选择到达时间"
                 v-model="trainLineForm.arriveTime"
                 style="width: 100%"
               ></DatePicker>
@@ -189,25 +189,30 @@ export default {
     async handleSubmit(name) {
       this.$refs[name].validate(async valid => {
         if (valid) {
-          let fromCityName = this.$utils.filterArray(this.citys, 'id', this.trainLineForm.fromCityId)
-          let toCityName = this.$utils.filterArray(this.citys, 'id', this.trainLineForm.toCityId)
-          let fromPosName = this.$utils.filterArray(this.positions, 'id', this.trainLineForm.fromPosId)
-          let toPosName = this.$utils.filterArray(this.positions, 'id', this.trainLineForm.toPosId)
-          let prefix = {
-            fromCityName: fromCityName[0].city_name,
-            toCityName: toCityName[0].city_name,
-            fromPosName: fromPosName[0].train_name,
-            toPosName: toPosName[0].train_name,
-            ticket: this.ticketList
+          if (this.ticketList.length !== 0) {
+            let fromCityName = this.$utils.filterArray(this.citys, 'id', this.trainLineForm.fromCityId)
+            let toCityName = this.$utils.filterArray(this.citys, 'id', this.trainLineForm.toCityId)
+            let fromPosName = this.$utils.filterArray(this.positions, 'id', this.trainLineForm.fromPosId)
+            let toPosName = this.$utils.filterArray(this.positions, 'id', this.trainLineForm.toPosId)
+            let prefix = {
+              fromCityName: fromCityName[0].city_name,
+              toCityName: toCityName[0].city_name,
+              fromPosName: fromPosName[0].train_name,
+              toPosName: toPosName[0].train_name,
+              ticket: this.ticketList
+            }
+            let options = {
+              ...this.trainLineForm,
+              prefix: JSON.stringify(prefix),
+            }
+            await this.$store.dispatch('createTrainLineAsync', options)
+            setTimeout(() => {
+              this.handleReset('trainLineForm')
+            }, 100)
           }
-          let options = {
-            ...this.trainLineForm,
-            prefix: JSON.stringify(prefix),
+          else {
+            this.$utils.toastTips('error', '务必填写票价!', 1.5)
           }
-          await this.$store.dispatch('createTrainLineAsync', options)
-          setTimeout(() => {
-            this.handleReset('trainLineForm')
-          }, 100)
         } else {
           this.$utils.toastTips('error', '请确认是否已完成表单的填写!', 1.5)
         }

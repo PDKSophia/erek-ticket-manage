@@ -84,13 +84,13 @@ export default {
           align: 'center'
         },
         {
-          title: '起始站点',
-          key: 'fromPosName',
+          title: '起始目的',
+          key: 'fromName',
           align: 'center'
         },
         {
-          title: '目的站点',
-          key: 'toPosName',
+          title: '抵达目的',
+          key: 'toName',
           align: 'center'
         },
         {

@@ -234,12 +234,12 @@ export default {
     },
     async handlePositionChangeNum(current) {
       this.$store.dispatch('setBusPosPageNum', current)
-      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.$store.dispatch('retrieveBusPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
       await this.upNextTick()
     },
     async handlePositionChangeSize(size) {
       this.$store.dispatch('setBusPosPageSize', size)
-      await this.$store.dispatch('retrieveCityListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
+      await this.$store.dispatch('retrieveBusPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
       await this.upNextTick()
     },
     async handleLineChangeNum(current) {
@@ -275,10 +275,8 @@ export default {
         let prefix = JSON.parse(item.prefix)
         return {
           ...item,
-          fromCityName: prefix.fromCityName,
-          toCityName: prefix.toCityName,
-          fromPosName: prefix.fromPosName,
-          toPosName: prefix.toPosName,
+          fromName: `${prefix.fromCityName}-${prefix.fromPosName}`,
+          toName: `${prefix.toCityName}-${prefix.toPosName}`,
           startTime: this.$utils.processToDate(item.startTime),
           arriveTime: this.$utils.processToDate(item.arriveTime)
         }

@@ -10,7 +10,7 @@
           :pageSize="pagination.pageSize"
           showSizer
           transfer
-          :page-size-opts="[1, 2, 5, 20]"
+          :page-size-opts="[5, 10, 15, 20]"
           @on-change="onHandlePageNum"
           @on-page-size-change="onHandlePageSize"
         ></Page>
@@ -23,7 +23,7 @@
 
 import { mapState } from 'vuex'
 export default {
-  name: 'BusPositionTable',
+  name: 'AirPositionTable',
   computed: mapState({
     isFetching: state => state.global.isFetching
   }),
@@ -72,87 +72,54 @@ export default {
     return {
       columns: [
         {
-          title: '班次ID',
+          title: '城市ID',
           key: 'id',
           width: 80,
           align: 'center'
         },
         {
-          title: '班次名称',
-          key: 'name',
-          width: 200,
+          title: '机场名称',
+          key: 'air_name',
+          width: 130,
           align: 'center'
         },
         {
-          title: '价格',
-          key: 'price',
-          width: 100,
+          title: '所属城市',
+          key: 'city_name',
+          width: 120,
           align: 'center'
         },
         {
-          title: '总票数',
-          key: 'count',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '已售出',
-          key: 'sell',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '剩余票数',
-          key: 'surplus',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '起始站点',
-          key: 'fromName',
-          align: 'center'
-        },
-        {
-          title: '目的站点',
-          key: 'toName',
-          align: 'center'
-        },
-        {
-          title: '起始时间',
-          key: 'startTime',
-          align: 'center'
-        },
-        {
-          title: '到达时间',
-          key: 'arriveTime',
+          title: '城市简介',
+          key: 'desc',
           align: 'center'
         },
         {
           title: '操作',
           align: 'center',
           key: 'action',
-          width: 80,
+          width: 150,
           render: (h, params) => {
             return h('div', [
-              // h(
-              //   'Button',
-              //   {
-              //     props: {
-              //       type: 'primary',
-              //       size: 'small'
-              //     },
-              //     style: {
-              //       marginRight: '5px'
-              //     },
-              //     on: {
-              //       click: () => {
-              //         var index = params.index;
-              //         this.$emit('onHandleLineClick', index, 'update');
-              //       }
-              //     }
-              //   },
-              //   '编辑'
-              // ),
+              h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      var index = params.index;
+                      this.$emit('onHandlePosClick', index, 'update');
+                    }
+                  }
+                },
+                '编辑'
+              ),
               h(
                 'Button',
                 {
@@ -166,7 +133,7 @@ export default {
                   on: {
                     click: () => {
                       var index = params.index;
-                      this.$emit('onHandleLineClick', index, 'delete');
+                      this.$emit('onHandlePosClick', index, 'delete');
                     }
                   }
                 },
