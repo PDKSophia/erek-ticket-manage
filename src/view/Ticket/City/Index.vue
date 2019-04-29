@@ -97,9 +97,18 @@ export default {
       this.$refs[name].validate(async valid => {
         if (valid) {
           // 上传图片
-          const iUrl = await this.$api.api.uploadFiles(this.file)
-          this.city_form.city_cover = iUrl
-          await this.$store.dispatch('createCityAsync', this.city_form)
+          if (!this.city_form.cover) {
+            const iUrl = await this.$api.api.uploadFiles(this.file)
+            this.city_form.city_cover = iUrl
+          }
+          const options = {
+            ...this.city_form,
+            prefix: JSON.stringify({
+              score: Math.floor(Math.random().toFixed(2) * 6) + 1,
+              visited: Math.random().toFixed(2) * 99000 + 100
+            })
+          }
+          await this.$store.dispatch('createCityAsync', options)
           setTimeout(() => {
             this.handleReset('city_form')
           }, 2000)

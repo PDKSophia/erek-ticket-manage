@@ -8,7 +8,13 @@
  * Last modified  : 2019-03-25
  */
 import { Message } from 'iview'
-import { retrieveCityStatus, retrieveCityList, createCity, updateCity, deleteCity } from '../../service/api'
+import {
+	retrieveCityStatus,
+	retrieveCityList,
+	createCity,
+	updateCity,
+	deleteCity
+} from '../../service/api'
 
 const types = {
 	RETRIEVE_STATUS_LIST: 'RETRIEVE_STATUS_LIST',
@@ -26,14 +32,14 @@ const actions = {
 		try {
 			const data = await retrieveCityStatus()
 			commit(types.RETRIEVE_STATUS_LIST, { data: data })
-		} catch (err) {}
+		} catch (err) { }
 	},
 	// 分页获取
 	async retrieveCityListAsync({ commit }, payload) {
 		try {
 			const data = await retrieveCityList(payload)
 			commit(types.RETRIEVE_CITY_LIST, { data: data })
-		} catch (err) {}
+		} catch (err) { }
 	},
 	// 新增城市
 	async createCityAsync({ commit }, payload, callback) {

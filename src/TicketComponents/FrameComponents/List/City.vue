@@ -3,12 +3,7 @@
     <div class="vue-flex-item" v-for="(item, index) in data" :key="index">
       <div class="vue-erek-item-meta">
         <div class="vue-erek-item-meta-avatar">
-          <img
-            crossorigin
-            class="vue-erek-item-meta-avatar-image"
-            :src="'http://localhost:2442/' + item.city_cover"
-            alt
-          >
+          <img crossorigin class="vue-erek-item-meta-avatar-image" :src="item.city_cover" alt>
         </div>
         <div class="vue-erek-item-meta-content">
           <h4 class="vue-erek-item-meta-title">{{ item.city_name }}</h4>

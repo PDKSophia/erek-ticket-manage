@@ -22,6 +22,7 @@
 <script>
 
 import { mapState } from 'vuex'
+
 export default {
   name: 'BusPositionTable',
   computed: mapState({
@@ -80,14 +81,18 @@ export default {
         {
           title: '车站名称',
           key: 'bus_name',
-          width: 130,
+          width: 150,
           align: 'center'
         },
         {
           title: '所属城市',
           key: 'city_name',
-          width: 120,
-          align: 'center'
+          width: 150,
+          align: 'center',
+          // filters: [],
+          // filterMethod(value, row) {
+          //   return row.city_name.indexOf(value) > -1;
+          // }
         },
         {
           title: '城市简介',
