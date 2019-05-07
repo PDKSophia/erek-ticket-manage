@@ -314,11 +314,11 @@ export default {
   async mounted() {
     // get train-positions-list
     this.$store.dispatch('setTrainPosPageNum', 1)
-    this.$store.dispatch('setTrainPosPageSize', 5)
+    this.$store.dispatch('setTrainPosPageSize', 20)
     await this.$store.dispatch('retrieveTrainPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
     // get train-line-list
     this.$store.dispatch('setTrainLinePageNum', 1)
-    this.$store.dispatch('setTrainLinePageSize', 5)
+    this.$store.dispatch('setTrainLinePageSize', 20)
     await this.$store.dispatch('retrieveTrainLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
     await retrieveCityList({
       pageNum: 1,

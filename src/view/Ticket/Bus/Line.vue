@@ -137,9 +137,9 @@ export default {
             prefix: JSON.stringify(prefix),
           }
           await this.$store.dispatch('createBusLineAsync', options)
-          setTimeout(() => {
-            this.handleReset('busLineForm')
-          }, 100)
+          // setTimeout(() => {
+          //   this.handleReset('busLineForm')
+          // }, 100)
         } else {
           this.$utils.toastTips('error', '请确认是否已完成表单的填写!', 1.5);
         }

@@ -127,17 +127,17 @@ export const airCompany = [
   },
   {
     id: 111,
-    key: '吉祥',
+    key: 'JX',
     text: '吉祥航空'
   },
   {
     id: 112,
-    key: '9C',
+    key: 'CQ',
     text: '春秋航空'
   },
   {
     id: 113,
-    key: 'CBJ',
+    key: 'BJ',
     text: '首都航空'
   }
 ]

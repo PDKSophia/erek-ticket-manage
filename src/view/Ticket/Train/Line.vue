@@ -206,9 +206,9 @@ export default {
               prefix: JSON.stringify(prefix),
             }
             await this.$store.dispatch('createTrainLineAsync', options)
-            setTimeout(() => {
-              this.handleReset('trainLineForm')
-            }, 100)
+            // setTimeout(() => {
+            //   this.handleReset('trainLineForm')
+            // }, 100)
           }
           else {
             this.$utils.toastTips('error', '务必填写票价!', 1.5)

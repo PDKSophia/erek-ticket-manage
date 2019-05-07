@@ -10,7 +10,7 @@
           :pageSize="pagination.pageSize"
           showSizer
           transfer
-          :page-size-opts="[1, 2, 5, 20]"
+          :page-size-opts="[20, 30, 50, 80, 100]"
           @on-change="onHandlePageNum"
           @on-page-size-change="onHandlePageSize"
         ></Page>

@@ -311,11 +311,11 @@ export default {
   async mounted() {
     // get Air-positions-list
     this.$store.dispatch('setAirPosPageNum', 1)
-    this.$store.dispatch('setAirPosPageSize', 5)
+    this.$store.dispatch('setAirPosPageSize', 20)
     await this.$store.dispatch('retrieveAirPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
     // get Air-line-list
     this.$store.dispatch('setAirLinePageNum', 1)
-    this.$store.dispatch('setAirLinePageSize', 5)
+    this.$store.dispatch('setAirLinePageSize', 20)
     await this.$store.dispatch('retrieveAirLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
     await retrieveCityList({
       pageNum: 1,

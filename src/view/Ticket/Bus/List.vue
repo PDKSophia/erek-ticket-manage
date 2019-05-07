@@ -293,11 +293,11 @@ export default {
   async mounted() {
     // get bus-positions-list
     this.$store.dispatch('setBusPosPageNum', 1)
-    this.$store.dispatch('setBusPosPageSize', 5)
+    this.$store.dispatch('setBusPosPageSize', 20)
     await this.$store.dispatch('retrieveBusPosListAsync', { pageNum: this.posPageNum, pageSize: this.posPageSize })
     // get bus-line-list
     this.$store.dispatch('setBusLinePageNum', 1)
-    this.$store.dispatch('setBusLinePageSize', 5)
+    this.$store.dispatch('setBusLinePageSize', 20)
     await this.$store.dispatch('retrieveBusLineAsync', { pageNum: this.linePageNum, pageSize: this.linePageSize })
     await retrieveCityList({
       pageNum: 1,
