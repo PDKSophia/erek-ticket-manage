@@ -198,6 +198,10 @@ Node 后端请看这边 👉 [erek-ticket-server](https://github.com/PDKSophia/e
 
 ## 页面展示
 
+<img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-0.jpg'>
+
+---
+
 <img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-1.png'>
 
 ---
@@ -218,7 +222,24 @@ Node 后端请看这边 👉 [erek-ticket-server](https://github.com/PDKSophia/e
 
 ---
 
+<img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-6.jpg'>
+
+---
+
+<img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-7.jpg'>
+
+---
+
+<img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-8.jpg'>
+
+---
+
+<img src='https://github.com/PDKSophia/erek-ticket-manage/raw/master/image/cover-9.jpg'>
+
+---
+
 ## 航班录入规范
+
 - 飞机航班录入: 航空公司与航班号之间不能留有空格，正确规范为: `东航MU2265`、`海航HU7364`
 
 - 火车班次录入: 格式为: `起始城市-目的城市 车次号 简介`，正确规范为: `西安北-上海南 G8612 直达特快`、`北京-昆明 K391 直达列车`
