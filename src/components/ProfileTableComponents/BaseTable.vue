@@ -55,37 +55,37 @@ export default {
       initPageOption: [10, 20, 30, 50],
       columns: [
         {
-          title: '商品编号',
-          key: 'commo_id',
+          title: 'id',
+          key: 'id',
           align: 'center',
           width: 100
         },
         {
-          title: '商品名称',
-          key: 'commo_title',
+          title: '乘客名',
+          key: 'nickname',
           align: 'center',
           width: 300
         },
         {
-          title: '商品条码',
-          key: 'commo_qrcode',
+          title: '身份证',
+          key: 'passengerId',
           align: 'center'
         },
         {
-          title: '单价',
-          key: 'single_price',
+          title: '联系电话',
+          key: 'phone',
           align: 'center',
           width: 100
         },
         {
-          title: '数量',
-          key: 'commo_count',
+          title: '坐席',
+          key: 'position',
           align: 'center',
           width: 100
         },
         {
           title: '金额',
-          key: 'all_price',
+          key: 'price',
           align: 'center',
           width: 100
         }

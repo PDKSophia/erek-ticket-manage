@@ -56,6 +56,7 @@ import CityListComponents from '@/view/Ticket/City/List'
 import SearchRouter from '@/view/Ticket/Search/Router'
 import SimpleSearch from '@/view/Ticket/Search/Index'
 import TicketCodeSearch from '@/view/Ticket/Search/TicketCode'
+import SearchResult from '@/view/Ticket/Search/Result'
 
 // 部门管理
 import DepartmentComponents from '@/view/Ticket/Department/Index'
@@ -352,6 +353,14 @@ const router = new Router({
               path: 'ticket-code',
               name: 'TicketCodeSearch',
               component: TicketCodeSearch,
+              meta: {
+                keepAlive: false
+              }
+            },
+            {
+              path: 'search-result',
+              name: 'SearchResult',
+              component: SearchResult,
               meta: {
                 keepAlive: false
               }

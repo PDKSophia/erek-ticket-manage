@@ -71,7 +71,7 @@ export default {
       sendCode: true,
       countTime: 0, // 倒计时60s
       loginform: {
-        username: '会玩的一号',
+        username: '彭道宽',
         password: '123456',
         email: '1063137960@qq.com',
         code: ''

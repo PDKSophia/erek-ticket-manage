@@ -26,7 +26,12 @@ export default {
       if (!this.simpleValue) {
         this.$utils.toastTips('warning', '请输入要搜索的内容', 1)
       } else {
-        this.$utils.toastTips('info', `你要搜索 ${this.simpleValue}`, 1)
+        this.$router.push({
+          path: '/erek-manage/erek-search/search-result',
+          query: {
+            code: this.simpleValue
+          }
+        })
       }
     }
   }

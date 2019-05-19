@@ -476,7 +476,6 @@ export function deleteAirLine(lineId) {
   })
 }
 
-
 export default {
   // 登陆模块
   /**
@@ -493,7 +492,7 @@ export default {
     }).then(data => {
       Message.success({
         content: data,
-        duration: 1.5
+        duration: 3.5
       })
     })
   },
@@ -535,10 +534,10 @@ export default {
     })
   },
   /**
-  * @desc: 文件上传 图床
-  * @param {Blob} files 文件
-  * @return {*}
-  */
+   * @desc: 文件上传 图床
+   * @param {Blob} files 文件
+   * @return {*}
+   */
   uploadChainFiles: files => {
     let formdata = new FormData()
     formdata.append('smfile', files)
@@ -551,6 +550,72 @@ export default {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
+    })
+  },
+  /**
+   * @desc: 获取热门城市
+   * @return {*}
+   */
+  retrieveHotCity: () => {
+    return request({
+      url: `http://localhost:2442/wapp/api/city/recommend/get-all`,
+      method: 'GET'
+    })
+  },
+  /**
+   * @desc: 获取当季旅游地列表
+   * @return {*}
+   */
+  retrieveTravelCity: () => {
+    return request({
+      url: `http://localhost:2442/wapp/api/city/travel/get-all`,
+      method: 'GET'
+    })
+  },
+  /**
+   * @desc: 获取旅游主题列表
+   * @return {*}
+   */
+  retrieveStyleCity: () => {
+    return request({
+      url: `http://localhost:2442/wapp/api/city/style/get-all`,
+      method: 'GET'
+    })
+  },
+  /**
+   * @desc: 获取所有城市列表
+   * @return {*}
+   */
+  retrieveAllCityList: () => {
+    return request({
+      url: `${baseUrl}/api/city/get-all`,
+      method: 'GET',
+      params: {
+        pageNum: 1,
+        pageSize: 200
+      }
+    })
+  },
+  /**
+   * @desc: 获取所有订单
+   * @return {*}
+   */
+  retrieveAllOrder: () => {
+    return request({
+      url: `${baseUrl}/api/order/get-all`,
+      method: 'GET'
+    })
+  },
+  /**
+   * @desc 根据订单号查询订单
+   * @param {String} payload
+   * @return {*}
+   */
+  retrieveSearchOrder: payload => {
+    return request({
+      url: `${baseUrl}/api/order/search`,
+      method: 'POST',
+      data: payload
     })
   }
 }
